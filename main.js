@@ -38,43 +38,18 @@ function imgShow(imgContainer) {
 }
 
 
-function imgClick(imgContainer) {
-	let img = imgContainer;
-
-	$(img).click(function() {
-		if (!$(this).hasClass('selected')) {
-			//SELECTED
-			$(img).css('width', '20%');
-			$(this).css('width', '95%');
-
-			$(img).removeClass('selected');
-			$(this).addClass('selected');
-		} else {
-			//UNSELECTED
-			$(img).css('width', '20%');
-
-			$(this).removeClass('selected');
-		}
-	});
-}
-
-
 function imagesDestopWidth() {
 	let titles = $('ul#titles');
 	let texts = $('ul#texts');
 	let imgDesktop = $('ul#imagesDesktop');
-
 	let width = titles.outerWidth() + texts.outerWidth();
-
 };
 
 
 $(document).ready(function() {
-
 	if ($(window)) {
 		imgShow('ul#imagesDesktop > ul');
 		imgClick('ul#imagesDesktop > ul > img, ul#imagesDesktop > ul > video');
 		imagesDestopWidth();
 	} 
-
 });
