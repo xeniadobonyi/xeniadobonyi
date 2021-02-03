@@ -122,6 +122,7 @@ ul#imagesDesktop > ul > p {
 		width: 100%;
 	}
 	ul#texts > li#redesign,
+	ul#texts > li#fashionweb,
 	ul#texts > li#single_page_checkout,
 	ul#texts > li#look_and_feel,
 	ul#texts > li#old_redesign,
@@ -162,6 +163,17 @@ ul#imagesDesktop > ul > p {
 	}
 	#imagesDesktop ul {
 		width: 95%;
+	}
+	#imagesDesktop ul.about {
+		width: 100%;
+	}
+	pre {
+		font-size: 9px;
+		text-align: center;
+		padding-left: 0;
+	}
+	ul#imagesDesktop > ul > p {
+		margin: 20px 26px;
 	}
 }
 /* Everything else */
