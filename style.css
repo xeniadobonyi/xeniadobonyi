@@ -42,7 +42,7 @@ nav {
 	background-color: white;
 }
 nav p, nav a {
-	font-size: 29px;
+	font-size: 28px;
 }
 pre {
 	font-family: courier;
@@ -86,13 +86,16 @@ ul#texts > li#about {
 	margin-top: 279px;
 }
 ul#texts > li#contact {
-	margin-top: 329px;
+	margin-top: 319px;
 }
 ul#texts > li > p {
 	margin-bottom: 12px;
 }
 ul#texts > li > p:last-child {
 	margin-bottom: 0;
+}
+ul#imagesDesktop > ul > p {
+	margin: -17px 15px;
 }
 /* Moblile */
 @media screen and ( min-width: 0px ) and ( max-width: 1057px ) {
