@@ -45,8 +45,8 @@ nav p, nav a {
 	font-size: 28px;
 }
 pre {
-	font-family: courier;
-	font-size: 12px;
+	font-family: courier, monospace;
+	font-size: 11px;
 	padding-left: 20px;
 }
 ul > li {
