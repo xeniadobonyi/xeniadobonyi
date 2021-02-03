@@ -14,7 +14,6 @@
 	url('font/HelveticaNowText-Regular.woff') format('woff'),
 	url('font/HelveticaNowText-Regular.ttf') format('truetype'),
 	url('font/HelveticaNowText-Regular.svg#svgFontName') format('svg');
-	font-display: swap;
 }
 body {
 	font-family: Helvetica Now, Helvetica Neue, Helvetica, sans-serif;
