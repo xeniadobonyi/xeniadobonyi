@@ -1,0 +1,200 @@
+*, *:before, *:after, html {
+	margin: 0;
+	padding: 0;
+	
+	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Helvetica Now Text, Helvetica Neue, Helvetica, sans-serif;
+	background-color: white;
+}
+
+h1, h2, p, a {
+	font-size: 17px;
+	color: blue;
+}
+.link.selected a{
+	color: black;
+}
+a { text-decoration: underline;  }
+a:hover { text-decoration: none; color: black; }
+
+
+nav {
+	width: 100vw;
+	padding: 0 20px;
+	background-color: white;
+}
+nav p, nav a {
+	font-size: 29px;
+}
+pre {
+	font-family: courier;
+	font-size: 12px;
+	padding-left: 20px;
+}
+
+ul > li { list-style: none; }
+
+ul#titles > li > a { text-decoration: none; }
+
+ul#texts > li {
+	padding: 20px 26px;
+
+	border-top: 1px solid blue;
+	border-bottom: 1px solid blue;
+
+	display: none;
+}
+ul#texts > li#redesign { border-top: 0; }
+ul#texts > li#fashionweb { margin-top: 39px; }
+ul#texts > li#look_and_feel { margin-top: 79px; }
+ul#texts > li#single_page_checkout { margin-top: 119px; }
+ul#texts > li#old_redesign { margin-top: 159px; }
+ul#texts > li#netaporter { margin-top: 199px; }
+ul#texts > li#first_website { margin-top: 239px; }
+ul#texts > li#about { margin-top: 279px; }
+ul#texts > li#contact { margin-top: 329px; }
+
+ul#texts > li > p {	margin-bottom: 12px; }
+ul#texts > li > p:last-child { margin-bottom: 0; }
+
+/* Moblile */
+@media screen and ( min-width: 0px ) and ( max-width: 1057px ) {
+
+	nav { margin: 10px 0; }
+
+	nav p, nav a {
+		font-size: 20px;
+		font-weight: bold;
+
+	}
+	p, a {
+		font-size: 16px;
+	}
+
+	ul#titles { width: 100vw; }
+	ul#texts { width: 100vw; }
+
+	#wrap > ul {
+		display: inline-block;
+		float: left;
+		overflow-y: scroll;
+		width: 100%;
+	}
+	
+	ul#texts > li#redesign,
+	ul#texts > li#single_page_checkout,
+	ul#texts > li#look_and_feel,
+	ul#texts > li#old_redesign,
+	ul#texts > li#netaporter,
+	ul#texts > li#first_website,
+	ul#texts > li#about,
+	ul#texts > li#contact { margin-top: 18px; }
+
+	ul#titles > li {
+		line-height: 38px;
+		padding-left: 22px;
+		border-top: 1px solid blue;
+		cursor: pointer;
+	}
+	ul#titles > li:last-child {	border-bottom: 1px solid blue;	}
+
+	ul#texts > li {
+		padding-top: 0;
+		border: 0;
+	}
+
+	ul#imagesDesktop { width: 100%; }
+
+	ul#imagesMobile > ul {
+		padding: 20px calc(22px - 2.5%);
+		display: none;
+	}
+
+	ul#imagesMobile > ul > img.hidden,
+	ul#imagesMobile > ul > video.hidden { display: inline-block; }
+
+	img, video {
+		width: 100%;
+		margin: 0 2.5% 5% 2.5%;
+		padding: 0;
+		border: 1px solid blue;
+	}
+	#imagesDesktop ul {
+		width: 95%;
+	}
+
+}
+
+/* Everything else */
+@media screen and ( min-width: 1058px ) {
+
+	nav {
+		line-height: 50px;
+		border-bottom: 1px solid blue;
+		background-color: cantaloupe;
+		color: blue;
+	}
+
+	ul#titles { width: 400px; }
+	ul#texts { width: 400px; }
+
+	#wrap > ul {
+		height: calc( 100vh - 51px );
+
+		display: inline-block;
+		float: left;
+		overflow-y: scroll;
+	}
+
+	ul#titles > li {
+		line-height: 37px;
+		padding-top: 1px;
+		padding-left: 22px;
+
+		border-bottom: 1px solid blue;
+
+		cursor: pointer;
+	}
+
+	ul#texts {
+		border-left: 1px solid blue;
+		border-right: 1px solid blue;
+	}
+
+	ul#imagesDesktop { width: calc(100vw - 800px); }
+
+	ul#imagesDesktop > ul {
+		padding: 40px 22px;
+
+		border-top: 1px solid blue;
+	}
+
+	ul#imagesDesktop > ul > img.hidden,
+	ul#imagesDesktop > ul > video.hidden { display: inline-block; }
+
+	img, video {
+		width: 95%;
+		margin: 0 2.5% 5% 2.5%;
+		padding: 0;
+
+		border: 1px solid blue;
+
+		cursor: pointer;
+		float: left;
+	}
+
+	ul#imagesDesktop > ul.redesign { border-top: 0; }
+	ul#imagesDesktop > ul.fashionweb { margin-top: 39px; }
+	ul#imagesDesktop > ul.look_and_feel { margin-top: 79px; }
+	ul#imagesDesktop > ul.single_page_checkout { margin-top: 119px; }
+	ul#imagesDesktop > ul.old_redesign { margin-top: 159px; }
+	ul#imagesDesktop > ul.netaporter { margin-top: 199px; }
+	ul#imagesDesktop > ul.first_website { margin-top: 239px; }
+	ul#imagesDesktop > ul.about { margin-top: 279px; }
+
+}
