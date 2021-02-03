@@ -6,9 +6,17 @@
   	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
-
+@font-face {
+  font-family: 'Helvetica Now';
+  src: url('font/HelveticaNowText-Regular.eot'); /* IE9 Compat Modes */
+  src: url('font/HelveticaNowText-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('font/HelveticaNowText-Regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('font/HelveticaNowText-Regular.woff') format('woff'), /* Pretty Modern Browsers */
+       url('font/HelveticaNowText-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('font/HelveticaNowText-Regular.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
 body {
-	font-family: Helvetica Now Text, Helvetica Neue, Helvetica, sans-serif;
+	font-family: Helvetica Now, Helvetica Neue, Helvetica, sans-serif;
 	background-color: white;
 }
 
