@@ -106,17 +106,17 @@ ul#texts > li > p:last-child {
 ul#imagesDesktop > ul > p {
 	margin: -17px 15px;
 }
-/* Moblile */
-@media screen and ( min-width: 0px ) and ( max-width: 1057px ) {
+@media all and ( min-width: 0px ) and ( max-width: 1057px ) {
 	nav {
 		margin: 10px 0;
+		padding: 0 20px;
 	}
 	nav p, nav a {
-		font-size: 18px;
+		font-size: 17px;
 		font-weight: bold;
 	}
 	p, a {
-		font-size: 15px;
+		font-size: 14px;
 	}
 	ul#titles {
 		width: 100vw;
@@ -142,7 +142,7 @@ ul#imagesDesktop > ul > p {
 		margin-top: 18px;
 	}
 	ul#titles > li {
-		line-height: 38px;
+		line-height: 37px;
 		padding-left: 22px;
 		border-top: 1px solid black;
 		cursor: pointer;
@@ -185,8 +185,22 @@ ul#imagesDesktop > ul > p {
 		margin: 20px 26px;
 	}
 }
-/* Everything else */
-@media screen and ( min-width: 1058px ) {
+@media all and ( min-width: 375px ) and ( max-width: 850px ) {
+	nav p, nav a {
+		font-size: 16px;
+	}
+}
+@media all and ( min-width: 322px ) and ( max-width: 374px ) {
+	nav p, nav a {
+		font-size: 15px;
+	}
+}
+@media all and ( min-width: 0px ) and ( max-width: 321px ) {
+	nav p, nav a {
+		font-size: 14px;
+	}
+}
+@media all and ( min-width: 1058px ) {
 	nav {
 		line-height: 50px;
 		border-bottom: 1px solid black;
