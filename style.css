@@ -21,25 +21,30 @@ body {
 }
 h1, h2, p, a {
 	font-size: 17px;
-	color: blue;
+	color: black;
 }
 .link {
 	padding-left: 22px;
 }
 .link.selected a {
-	color: black;
+	color: magenta;
 }
 a {
 	text-decoration: underline;
 }
 a:hover {
 	text-decoration: none;
-	color: black;
+	color: magenta;
+	background-color: lime;
 }
 nav {
 	width: 100vw;
 	padding: 0 20px;
 	background-color: white;
+}
+nav a {
+	color: magenta;
+	text-decoration: none;
 }
 nav p, nav a {
 	font-size: 28px;
@@ -57,9 +62,13 @@ ul#titles > li > a {
 }
 ul#texts > li {
 	padding: 20px 26px;
-	border-top: 1px solid blue;
-	border-bottom: 1px solid blue;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
 	display: none;
+}
+ul#texts a {
+	color: magenta;
+	text-decoration: none;
 }
 ul#texts > li#redesign {
 	border-top: 0;
@@ -135,11 +144,11 @@ ul#imagesDesktop > ul > p {
 	ul#titles > li {
 		line-height: 38px;
 		padding-left: 22px;
-		border-top: 1px solid blue;
+		border-top: 1px solid black;
 		cursor: pointer;
 	}
 	ul#titles > li:last-child {
-		border-bottom: 1px solid blue;
+		border-bottom: 1px solid black;
 	}
 	ul#texts > li {
 		padding-top: 0;
@@ -159,7 +168,7 @@ ul#imagesDesktop > ul > p {
 		width: 100%;
 		margin: 0 2.5% 5% 2.5%;
 		padding: 0;
-		border: 1px solid blue;
+		border: 1px solid black;
 	}
 	#imagesDesktop ul {
 		width: 95%;
@@ -180,9 +189,9 @@ ul#imagesDesktop > ul > p {
 @media screen and ( min-width: 1058px ) {
 	nav {
 		line-height: 50px;
-		border-bottom: 1px solid blue;
+		border-bottom: 1px solid black;
 		background-color: cantaloupe;
-		color: blue;
+		color: black;
 	}
 	ul#titles {
 		width: 400px;
@@ -200,19 +209,19 @@ ul#imagesDesktop > ul > p {
 		line-height: 37px;
 		padding-top: 1px;
 		padding-left: 22px;
-		border-bottom: 1px solid blue;
+		border-bottom: 1px solid black;
 		cursor: pointer;
 	}
 	ul#texts {
-		border-left: 1px solid blue;
-		border-right: 1px solid blue;
+		border-left: 1px solid black;
+		border-right: 1px solid black;
 	}
 	ul#imagesDesktop {
 		width: calc(100vw - 800px);
 	}
 	ul#imagesDesktop > ul {
 		padding: 40px 22px;
-		border-top: 1px solid blue;
+		border-top: 1px solid black;
 	}
 	ul#imagesDesktop > ul > img.hidden,ul#imagesDesktop > ul > video.hidden {
 		display: inline-block;
@@ -221,7 +230,7 @@ ul#imagesDesktop > ul > p {
 		width: 95%;
 		margin: 0 2.5% 5% 2.5%;
 		padding: 0;
-		border: 1px solid blue;
+		border: 1px solid black;
 		cursor: pointer;
 		float: left;
 	}
