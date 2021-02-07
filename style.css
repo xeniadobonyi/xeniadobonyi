@@ -28,6 +28,7 @@ h1, h2, p, a {
 }
 .link.selected a {
 	color: black;
+	text-transform: italic;
 }
 a {
 	text-decoration: underline;
@@ -160,7 +161,7 @@ ul#imagesDesktop > ul > p {
 		padding: 20px 22px;
 	}
 	ul#titles > li {
-		line-height: 33px;
+		line-height: 30px;
 		padding-left: 22px;
 		border-top: 1px solid black;
 		cursor: pointer;
