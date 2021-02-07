@@ -120,6 +120,10 @@ ul#texts > li > p:last-child {
 ul#imagesDesktop > ul > p {
 	margin: -17px 15px;
 }
+.single_page_checkout video {
+	width: 100%;
+	max-width: 260px;
+}
 @media all and ( min-width: 0px ) and ( max-width: 1057px ) {
 	nav {
 		margin: 1px 0;
