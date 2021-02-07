@@ -27,7 +27,7 @@ h1, h2, p, a {
 	padding-left: 22px;
 }
 .link.selected a {
-	color: blue;
+	color: black;
 }
 a {
 	text-decoration: underline;
