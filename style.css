@@ -27,15 +27,14 @@ h1, h2, p, a {
 	padding-left: 22px;
 }
 .link.selected a {
-	color: magenta;
+	color: blue;
 }
 a {
 	text-decoration: underline;
 }
 a:hover {
-	text-decoration: none;
-	color: magenta;
-	background-color: palegreen;
+	text-decoration: underline;
+	color: black;
 }
 nav {
 	width: 100vw;
@@ -43,7 +42,7 @@ nav {
 	background-color: white;
 }
 nav a {
-	color: magenta;
+	color: blue ;
 	text-decoration: none;
 }
 nav p, nav a {
@@ -53,6 +52,7 @@ pre {
 	font-family: courier, monospace;
 	font-size: 11px;
 	padding-left: 20px;
+	color: blue;
 }
 ul > li {
 	list-style: none;
@@ -67,8 +67,12 @@ ul#texts > li {
 	display: none;
 }
 ul#texts a {
-	color: magenta;
+	color: blue;
 	text-decoration: none;
+}
+ul#texts a:hover {
+	color: black;
+	text-decoration: underline;
 }
 ul#texts > li#redesign {
 	border-top: 0;
