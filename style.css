@@ -160,7 +160,7 @@ ul#imagesDesktop > ul > p {
 		padding: 20px 22px;
 	}
 	ul#titles > li {
-		line-height: 37px;
+		line-height: 35px;
 		padding-left: 22px;
 		border-top: 1px solid black;
 		cursor: pointer;
@@ -248,7 +248,7 @@ ul#imagesDesktop > ul > p {
 		overflow-y: scroll;
 	}
 	ul#titles > li {
-		line-height: 33px;
+		line-height: 37px;
 		padding-top: 1px;
 		padding-left: 22px;
 		border-bottom: 1px solid black;
