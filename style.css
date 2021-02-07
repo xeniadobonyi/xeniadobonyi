@@ -16,7 +16,7 @@
 	url('font/HelveticaNowText-Regular.svg#svgFontName') format('svg');
 }
 body {
-	font-family: Helvetica Now, Helvetica Neue, Helvetica, sans-serif;
+	font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif;
 	background-color: white;
 }
 h1, h2, p, a {
@@ -117,7 +117,6 @@ ul#imagesDesktop > ul > p {
 	}
 	nav p, nav a {
 		font-size: 17px;
-		font-weight: bold;
 	}
 	p, a {
 		font-size: 14px;
