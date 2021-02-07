@@ -46,7 +46,17 @@ nav a {
 	text-decoration: none;
 }
 nav p, nav a {
-	font-size: 28px;
+	font-size: 12px;
+}
+nav pre {
+	line-height: normal;
+	padding-left: 0;
+	font-size: 13px;
+	text-align: left;
+}
+nav p {
+	padding-left: 2px;
+	line-height: 30px;
 }
 pre {
 	font-family: courier, monospace;
@@ -111,11 +121,14 @@ ul#imagesDesktop > ul > p {
 }
 @media all and ( min-width: 0px ) and ( max-width: 1057px ) {
 	nav {
-		margin: 10px 0;
-		padding: 0 20px;
+		margin: 1px 0;
+		padding: 0 10px;
 	}
 	nav p, nav a {
-		font-size: 17px;
+		font-size: 11px;
+	}
+	nav pre {
+		font-size: 10px;
 	}
 	p, a {
 		font-size: 14px;
@@ -142,6 +155,9 @@ ul#imagesDesktop > ul > p {
 	ul#texts > li#about,
 	ul#texts > li#contact {
 		margin-top: 18px;
+	}
+	ul#texts > li {
+		padding: 20px 22px;
 	}
 	ul#titles > li {
 		line-height: 37px;
@@ -189,17 +205,27 @@ ul#imagesDesktop > ul > p {
 }
 @media all and ( min-width: 375px ) and ( max-width: 850px ) {
 	nav p, nav a {
-		font-size: 16px;
+		font-size: 11px;
 	}
 }
 @media all and ( min-width: 322px ) and ( max-width: 374px ) {
 	nav p, nav a {
-		font-size: 15px;
+		font-size: 11px;
+		line-height: 1.7;
+		padding: 5px 0 5px 2px;
 	}
 }
 @media all and ( min-width: 0px ) and ( max-width: 321px ) {
 	nav p, nav a {
-		font-size: 14px;
+		font-size: 11px;
+		line-height: 1.7;
+		padding: 3px 2px 4px 2px;
+	}
+	nav pre {
+		font-size: 9px;
+	}
+	nav {
+		margin: 0;
 	}
 }
 @media all and ( min-width: 1058px ) {
