@@ -183,6 +183,8 @@ ul#imagesDesktop > ul > p {
 	ul#imagesMobile > ul {
 		padding: 20px calc(22px - 2.5%);
 		display: none;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
 	ul#imagesMobile > ul > img.hidden,ul#imagesMobile > ul > video.hidden {
 		display: inline-block;
@@ -248,6 +250,8 @@ ul#imagesDesktop > ul > p {
 	}
 	#wrap > ul {
 		height: calc( 100vh - 51px );
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 		display: inline-block;
 		float: left;
 		overflow-y: scroll;
@@ -265,6 +269,8 @@ ul#imagesDesktop > ul > p {
 	}
 	ul#imagesDesktop {
 		width: calc(100vw - 800px);
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
 	ul#imagesDesktop > ul {
 		padding: 40px 22px;
