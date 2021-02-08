@@ -147,7 +147,7 @@ ul#imagesDesktop > ul > p {
 	#wrap > ul {
 		display: inline-block;
 		float: left;
-		overflow-y: scroll;
+		overflow: hidden;
 		width: 100%;
 	}
 	ul#texts > li#redesign,
@@ -254,7 +254,7 @@ ul#imagesDesktop > ul > p {
 		box-sizing: border-box;
 		display: inline-block;
 		float: left;
-		overflow-y: scroll;
+		overflow: hidden;
 	}
 	ul#titles > li {
 		line-height: 37px;
