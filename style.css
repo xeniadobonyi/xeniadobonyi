@@ -38,7 +38,7 @@ a:hover {
 	color: black;
 }
 nav {
-	width: 100vw;
+	width: 100%;
 	padding: 0 20px;
 	background-color: white;
 }
@@ -139,10 +139,10 @@ ul#imagesDesktop > ul > p {
 		font-size: 14px;
 	}
 	ul#titles {
-		width: 100vw;
+		width: 100%;
 	}
 	ul#texts {
-		width: 100vw;
+		width: 100%;
 	}
 	#wrap > ul {
 		display: inline-block;
@@ -268,7 +268,7 @@ ul#imagesDesktop > ul > p {
 		border-right: 1px solid black;
 	}
 	ul#imagesDesktop {
-		width: calc(100vw - 800px);
+		width: calc( 100% - 800px );
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 	}
