@@ -31,7 +31,8 @@ h1.title {
 	position: absolute;
 }
 h2.description {
-
+	font-size: 12px;
+	font-weight: normal;
 }
 .link {
 	padding-left: 22px;
