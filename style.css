@@ -23,6 +23,16 @@ h1, h2, p, a {
 	font-size: 17px;
 	color: black;
 }
+h1.title {
+	visibility: hidden;
+	padding: 0;
+	margin: 0;
+	font-size: 1px;
+	position: absolute;
+}
+h2.description {
+
+}
 .link {
 	padding-left: 22px;
 }
@@ -46,8 +56,9 @@ nav a {
 	color: blue ;
 	text-decoration: none;
 }
-nav p, nav a {
+nav p, nav a, nav h2 {
 	font-size: 12px;
+	font-weight: normal;
 }
 nav pre {
 	line-height: normal;
@@ -55,7 +66,7 @@ nav pre {
 	font-size: 13px;
 	text-align: left;
 }
-nav p {
+nav h2 {
 	padding-left: 2px;
 	line-height: 30px;
 }
