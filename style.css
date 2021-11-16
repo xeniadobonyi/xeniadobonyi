@@ -162,6 +162,7 @@ ul#imagesDesktop > ul > p {
 		overflow: hidden;
 		width: 100%;
 	}
+	ul#texts > li#givenchy,
 	ul#texts > li#redesign,
 	ul#texts > li#fashionweb,
 	ul#texts > li#single_page_checkout,
@@ -299,16 +300,16 @@ ul#imagesDesktop > ul > p {
 		cursor: pointer;
 		float: left;
 	}
-	ul#imagesDesktop > ul.redesign {
+	ul#imagesDesktop > ul.givenchy {
 		border-top: 0;
 	}
-	ul#imagesDesktop > ul.fashionweb {
+	ul#imagesDesktop > ul.redesign {
 		margin-top: 39px;
 	}
-	ul#imagesDesktop > ul.look_and_feel {
+	ul#imagesDesktop > ul.fashionweb {
 		margin-top: 79px;
 	}
-	ul#imagesDesktop > ul.single_page_checkout {
+	ul#imagesDesktop > ul.look_and_feel {
 		margin-top: 119px;
 	}
 	ul#imagesDesktop > ul.old_redesign {
