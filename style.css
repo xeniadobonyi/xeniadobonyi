@@ -96,16 +96,16 @@ ul#texts a:hover {
 	color: black;
 	text-decoration: underline;
 }
-ul#texts > li#redesign {
+ul#texts > li#givenchy {
 	border-top: 0;
 }
-ul#texts > li#fashionweb {
+ul#texts > li#redesign {
 	margin-top: 39px;
 }
-ul#texts > li#look_and_feel {
+ul#texts > li#fashionweb {
 	margin-top: 79px;
 }
-ul#texts > li#single_page_checkout {
+ul#texts > li#look_and_feel {
 	margin-top: 119px;
 }
 ul#texts > li#old_redesign {
