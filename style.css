@@ -96,13 +96,13 @@ ul#texts a:hover {
 	color: black;
 	text-decoration: underline;
 }
-ul#texts > li#givenchy {
+ul#texts > li#givenchy-redesign {
 	border-top: 0;
 }
-ul#texts > li#redesign {
+ul#texts > li#givenchy-nft {
 	margin-top: 39px;
 }
-ul#texts > li#fashionweb {
+ul#texts > li#redesign {
 	margin-top: 79px;
 }
 ul#texts > li#look_and_feel {
@@ -162,9 +162,9 @@ ul#imagesDesktop > ul > p {
 		overflow: hidden;
 		width: 100%;
 	}
-	ul#texts > li#givenchy,
+	ul#texts > li#givenchy-redesign,
+	ul#texts > li#givenchy-nft,
 	ul#texts > li#redesign,
-	ul#texts > li#fashionweb,
 	ul#texts > li#single_page_checkout,
 	ul#texts > li#look_and_feel,
 	ul#texts > li#old_redesign,
@@ -300,13 +300,13 @@ ul#imagesDesktop > ul > p {
 		cursor: pointer;
 		float: left;
 	}
-	ul#imagesDesktop > ul.givenchy {
+	ul#imagesDesktop > ul.givenchy-redesign {
 		border-top: 0;
 	}
-	ul#imagesDesktop > ul.redesign {
+	ul#imagesDesktop > ul.givenchy-nft {
 		margin-top: 39px;
 	}
-	ul#imagesDesktop > ul.fashionweb {
+	ul#imagesDesktop > ul.redesign {
 		margin-top: 79px;
 	}
 	ul#imagesDesktop > ul.look_and_feel {
