@@ -96,32 +96,35 @@ ul#texts a:hover {
 	color: black;
 	text-decoration: underline;
 }
-ul#texts > li#givenchy-redesign {
+ul#texts > li#givenchy-3d {
 	border-top: 0;
 }
-ul#texts > li#givenchy-nft {
+ul#texts > li#givenchy-redesign {
 	margin-top: 39px;
 }
-ul#texts > li#redesign {
+ul#texts > li#givenchy-nft {
 	margin-top: 79px;
 }
-ul#texts > li#look_and_feel {
+ul#texts > li#redesign {
 	margin-top: 119px;
 }
-ul#texts > li#old_redesign {
+ul#texts > li#look_and_feel {
 	margin-top: 159px;
 }
-ul#texts > li#netaporter {
+ul#texts > li#old_redesign {
 	margin-top: 199px;
 }
-ul#texts > li#first_website {
+ul#texts > li#netaporter {
 	margin-top: 239px;
 }
-ul#texts > li#about {
+ul#texts > li#first_website {
 	margin-top: 279px;
 }
-ul#texts > li#contact {
+ul#texts > li#about {
 	margin-top: 319px;
+}
+ul#texts > li#contact {
+	margin-top: 359px;
 }
 ul#texts > li > p {
 	margin-bottom: 12px;
@@ -162,6 +165,7 @@ ul#imagesDesktop > ul > p {
 		overflow: hidden;
 		width: 100%;
 	}
+	ul#texts > li#givenchy-3d,
 	ul#texts > li#givenchy-redesign,
 	ul#texts > li#givenchy-nft,
 	ul#texts > li#redesign,
@@ -300,28 +304,31 @@ ul#imagesDesktop > ul > p {
 		cursor: pointer;
 		float: left;
 	}
-	ul#imagesDesktop > ul.givenchy-redesign {
+	ul#imagesDesktop > ul.givenchy-3d {
 		border-top: 0;
 	}
-	ul#imagesDesktop > ul.givenchy-nft {
+	ul#imagesDesktop > ul.givenchy-redesign {
 		margin-top: 39px;
 	}
-	ul#imagesDesktop > ul.redesign {
+	ul#imagesDesktop > ul.givenchy-nft {
 		margin-top: 79px;
 	}
-	ul#imagesDesktop > ul.look_and_feel {
+	ul#imagesDesktop > ul.redesign {
 		margin-top: 119px;
 	}
-	ul#imagesDesktop > ul.old_redesign {
+	ul#imagesDesktop > ul.look_and_feel {
 		margin-top: 159px;
 	}
-	ul#imagesDesktop > ul.netaporter {
+	ul#imagesDesktop > ul.old_redesign {
 		margin-top: 199px;
 	}
-	ul#imagesDesktop > ul.first_website {
+	ul#imagesDesktop > ul.netaporter {
 		margin-top: 239px;
 	}
-	ul#imagesDesktop > ul.about {
+	ul#imagesDesktop > ul.first_website {
 		margin-top: 279px;
+	}
+	ul#imagesDesktop > ul.about {
+		margin-top: 319px;
 	}
 }
