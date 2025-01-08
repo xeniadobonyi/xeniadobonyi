@@ -450,18 +450,40 @@ ul#imagesDesktop > ul > p {
   animation-duration: 60s; /* Slower falling animation */
 }
 
-@keyframes flowers-shake {
+@-webkit-keyframes flowers-shake {
   0%, 100% {
-    transform: translateX(0);
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
   }
   25% {
-    transform: translateX(40px); /* Smaller shake distance */
+    -webkit-transform: translateX(40px);
+            transform: translateX(40px); /* Smaller shake distance */
   }
   50% {
-    transform: translateX(-30px); /* Add variation in direction */
+    -webkit-transform: translateX(-30px);
+            transform: translateX(-30px); /* Add variation in direction */
   }
   75% {
-    transform: translateX(20px); /* More subtle shake */
+    -webkit-transform: translateX(20px);
+            transform: translateX(20px); /* More subtle shake */
+  }
+}
+@keyframes flowers-shake {
+  0%, 100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  25% {
+    -webkit-transform: translateX(40px);
+            transform: translateX(40px); /* Smaller shake distance */
+  }
+  50% {
+    -webkit-transform: translateX(-30px);
+            transform: translateX(-30px); /* Add variation in direction */
+  }
+  75% {
+    -webkit-transform: translateX(20px);
+            transform: translateX(20px); /* More subtle shake */
   }
 }
 
@@ -477,20 +499,51 @@ ul#imagesDesktop > ul > p {
   animation-duration: 60s;
   animation-timing-function: ease-in-out
 }
-@keyframes flowers-rotate {
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
+@-webkit-keyframes flowers-rotate {
   0% {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
   100% {
-    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
   }
+}
+@keyframes flowers-rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes flowers-fall {
+    0% {
+        -webkit-transform: translateY(0);
+                transform: translateY(0);
+    }
+    100% {
+        -webkit-transform: translateY(110vh);
+                transform: translateY(110vh); /* Falling past the viewport */
+    }
 }
 @keyframes flowers-fall {
     0% {
-        transform: translateY(0);
+        -webkit-transform: translateY(0);
+                transform: translateY(0);
     }
     100% {
-        transform: translateY(110vh); /* Falling past the viewport */
+        -webkit-transform: translateY(110vh);
+                transform: translateY(110vh); /* Falling past the viewport */
     }
 }
 
