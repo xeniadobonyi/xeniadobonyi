@@ -34,6 +34,16 @@ function imagesDestopWidth() {
 	let width = titles.outerWidth() + texts.outerWidth();
 };
 
+document.querySelectorAll('.flower').forEach(flower => {
+    const randomLeft = Math.random() * 100; // Random horizontal position (0% to 100%)
+    const randomDelay = Math.random() * 10; // Random animation delay (0s to 10s)
+    const randomDuration = Math.random() * 20 + 20; // Random fall duration (20s to 40s)
+
+    flower.style.left = `${randomLeft}%`;
+    flower.style.animationDelay = `${randomDelay}s`;
+    flower.querySelector('.inner').style.animationDuration = `${randomDuration}s`;
+});
+
 
 $(document).ready(function() {
 	if ($(window)) {

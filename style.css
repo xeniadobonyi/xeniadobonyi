@@ -23,6 +23,15 @@ h1, h2, p, a {
 	font-size: 17px;
 	color: black;
 }
+.blog-page, .blog-page nav {
+	background-color: floralwhite;
+}
+.blog-page h1, 
+.blog-page h2, 
+.blog-page p,
+.blog-page div {
+	color:  #4E342E
+}
 h1.title {
 	visibility: hidden;
 	padding: 0;
@@ -53,9 +62,20 @@ nav {
 	padding: 0 20px;
 	background-color: white;
 }
+.blog-page nav{
+	padding: 0 26px;
+}
 nav a {
 	color: blue ;
 	text-decoration: none;
+}
+.blog-page a {
+	color: orange ;
+	text-decoration: none;
+}
+.blog-page a:hover {
+	color: orange ;
+	text-decoration: underline;
 }
 nav p, nav a, nav h2 {
 	font-size: 12px;
@@ -126,6 +146,9 @@ ul#texts > li#about {
 ul#texts > li#contact {
 	margin-top: 359px;
 }
+ul#texts > li#blog {
+	border-top: 0;
+}
 ul#texts > li > p {
 	margin-bottom: 12px;
 }
@@ -138,6 +161,33 @@ ul#imagesDesktop > ul > p {
 .single_page_checkout video {
 	width: 100%;
 	max-width: 260px;
+}
+#blog, #blog p, .blog p, .blog {
+	font-size: 12px;
+}
+.blog {
+	overflow:  auto;
+	height:  auto;
+}
+
+.blog-page, .blog-page a, .blog-page p, .blog-page h2, .blog-page li {
+	font-size: 16px;
+}
+.blog-page li {
+	padding-left: 26px;
+}
+.blog-page nav {
+	border: 0;
+}
+.blog-page nav a, .blog-page nav p, .blog-page nav h2 {
+	font-size:  12px;
+	line-height: 1.5;
+}
+.blog-page ul#imagesDesktop {
+	border: 0;
+}
+.caps {
+	text-transform: uppercase;
 }
 @media all and ( min-width: 0px ) and ( max-width: 1057px ) {
 	nav {
@@ -165,6 +215,9 @@ ul#imagesDesktop > ul > p {
 		overflow: hidden;
 		width: 100%;
 	}
+	.blog-page #wrap > ul {
+		overflow: visible;
+	}
 	ul#texts > li#givenchy-3d,
 	ul#texts > li#givenchy-redesign,
 	ul#texts > li#givenchy-nft,
@@ -175,7 +228,8 @@ ul#imagesDesktop > ul > p {
 	ul#texts > li#netaporter,
 	ul#texts > li#first_website,
 	ul#texts > li#about,
-	ul#texts > li#contact {
+	ul#texts > li#contact,
+	ul#texts > li#blog {
 		margin-top: 18px;
 	}
 	ul#texts > li {
@@ -207,6 +261,12 @@ ul#imagesDesktop > ul > p {
 		display: inline-block;
 	}
 	img, video {
+		width: 100%;
+		margin: 0 2.5% 5% 2.5%;
+		padding: 0;
+		border: 1px solid black;
+	}
+	.blog-page img, .blog-page video {
 		width: 100%;
 		margin: 0 2.5% 5% 2.5%;
 		padding: 0;
@@ -259,6 +319,9 @@ ul#imagesDesktop > ul > p {
 		background-color: cantaloupe;
 		color: black;
 	}
+	.blog-page nav {
+		color: #4E342E;
+	}
 	ul#titles {
 		width: 400px;
 	}
@@ -273,6 +336,9 @@ ul#imagesDesktop > ul > p {
 		float: left;
 		overflow: hidden;
 	}
+	.blog-page #wrap > ul {
+		overflow: visible;
+	}
 	ul#titles > li {
 		line-height: 37px;
 		padding-top: 1px;
@@ -284,10 +350,21 @@ ul#imagesDesktop > ul > p {
 		border-left: 1px solid black;
 		border-right: 1px solid black;
 	}
+	.blog-page #imagesDesktop {
+		border-left: 1px solid #4E342E;
+		border-right: 1px solid #4E342E;
+	}
 	ul#imagesDesktop {
 		width: calc( 100% - 800px );
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
+	}
+	.blog-page ul#imagesDesktop {
+		width: calc( 100% - 500px );
+		max-width:  800px;
+	}
+	.blog-page ul#imagesDesktop > ul > p {
+		margin: 0;
 	}
 	ul#imagesDesktop > ul {
 		padding: 40px 22px;
@@ -303,6 +380,30 @@ ul#imagesDesktop > ul > p {
 		border: 1px solid black;
 		cursor: pointer;
 		float: left;
+	}
+	.blog-page img, .blog-page video {
+		width: 85%;
+		margin: 0;
+		padding: 0;
+		border: 1px solid #4E342E;
+		cursor: pointer;
+		float: none;
+	}
+	.blog-page .screen {
+		width: 45%;
+		margin: 10px;
+		padding: 0;
+		border: 1px solid #4E342E;
+		cursor: pointer;
+		float: left;
+	}
+	.blog-page .landscape {
+		width: 85%;
+		margin: 0;
+		padding: 0;
+		border: 1px solid #4E342E;
+		cursor: pointer;
+		float: none;
 	}
 	ul#imagesDesktop > ul.givenchy-3d {
 		border-top: 0;
@@ -331,4 +432,74 @@ ul#imagesDesktop > ul > p {
 	ul#imagesDesktop > ul.about {
 		margin-top: 319px;
 	}
+	ul#imagesDesktop > ul.blog {
+		border-top: 0;
+	}
 }
+/* flower styling */
+.flower {
+  animation-duration: 12s; /* Adjust the overall shake speed */
+}
+
+.flower .inner {
+  animation-duration: 60s; /* Slower falling animation */
+}
+
+@keyframes flowers-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(40px); /* Smaller shake distance */
+  }
+  50% {
+    transform: translateX(-30px); /* Add variation in direction */
+  }
+  75% {
+    transform: translateX(20px); /* More subtle shake */
+  }
+}
+
+.flower {
+  position: fixed;
+  top: -10%;
+  z-index: 9999;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+  pointer-events: none;
+  animation-name: flowers-shake;
+  animation-duration: 60s;
+  animation-timing-function: ease-in-out
+}
+@keyframes flowers-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes flowers-fall {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(110vh); /* Falling past the viewport */
+    }
+}
+
+.flower .inner {
+  animation: flowers-fall 40s linear infinite, flowers-rotate 20s linear infinite;
+}
+
+.flower:nth-of-type(1) { left: 5%; animation-delay: 2s; }
+.flower:nth-of-type(2) { left: 15%; animation-delay: 14.5s; }
+.flower:nth-of-type(3) { left: 25%; animation-delay: 9s; }
+.flower:nth-of-type(4) { left: 35%; animation-delay: 6s; }
+.flower:nth-of-type(5) { left: 45%; animation-delay: 8.5s; }
+.flower:nth-of-type(6) { left: 55%; animation-delay: 5s; }
+.flower:nth-of-type(7) { left: 65%; animation-delay: 7s; }
+.flower:nth-of-type(8) { left: 75%; animation-delay: 9.5s; }
+.flower:nth-of-type(9) { left: 85%; animation-delay: 20.5s; }
+.flower:nth-of-type(10) { left: 95%; animation-delay: 14s; }
