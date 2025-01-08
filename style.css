@@ -87,6 +87,9 @@ nav pre {
 	font-size: 13px;
 	text-align: left;
 }
+.blog-page nav pre {
+	font-size: 11px;
+}
 nav h2 {
 	padding-left: 2px;
 	line-height: 30px;
