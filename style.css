@@ -202,6 +202,11 @@ p.date {
 	color: #E066FF;
 	font-size: 12px;
 }
+.bloglink {
+	display:  block;
+	width: 100%;
+	height: 100%;
+}
 .blog-page .videoWrapper {
 	margin:  0 33px;
 }
