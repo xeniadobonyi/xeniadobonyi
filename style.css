@@ -502,6 +502,14 @@ p.photo-description {
 		cursor: pointer;
 		float: none;
 	}
+	.blog-page .portrait {
+		width: 65%;
+		margin: 0;
+		padding: 0;
+		border: 1px solid #4E342E;
+		cursor: pointer;
+		float: none;
+	}
 	ul#imagesDesktop > ul.givenchy-3d {
 		border-top: 0;
 	}
