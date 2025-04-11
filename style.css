@@ -189,11 +189,11 @@ ul#imagesDesktop > ul > p {
 	border: 0;
 }
 .caps {
-	text-transform: uppercase;
 	padding-bottom: 20px;
 }
 h2.caps {
-	font-size: 20px;
+	font-size: 30px;
+	line-height:1.4;
 }
 .blog-page h2 {
 	font-weight: normal;
@@ -263,6 +263,17 @@ text-transform: uppercase;
 .row-item {
 	padding: 20px 5px;
 }
+h2.subtitle {
+	font-size: 22px;
+	text-transform: uppercase;
+}
+p.photo-description {
+	font-size:13px;
+}
+
+
+
+
 @media all and ( min-width: 0px ) and ( max-width: 1057px ) {
 	nav {
 		margin: 1px 0;
