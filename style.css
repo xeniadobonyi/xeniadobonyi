@@ -15,6 +15,16 @@
 	url('font/HelveticaNowText-Regular.ttf') format('truetype'),
 	url('font/HelveticaNowText-Regular.svg#svgFontName') format('svg');
 }
+@font-face {
+	font-family: 'Helvetica Now Bold';
+	font-style: bold;
+	src: url('font/HelveticaNowDisplay-Bold.eot');
+	src: url('font/HelveticaNowDisplay-Bold.eot?#iefix') format('embedded-opentype'),
+	url('font/HelveticaNowDisplay-Bold.woff2') format('woff2'),
+	url('font/HelveticaNowDisplay-Bold.woff') format('woff'),
+	url('font/HelveticaNowDisplay-Bold.ttf') format('truetype'),
+	url('font/HelveticaNowDisplay-Bold.svg#svgFontName') format('svg');
+}
 body {
 	font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif;
 	background-color: white;
@@ -270,6 +280,13 @@ h2.subtitle {
 p.photo-description {
 	font-size:13px;
 }
+
+.highlight {
+	font-family: 'Helvetica Now Bold', "Helvetica Neue", Helvetica, sans-serif;
+	letter-spacing:0.5px;
+}
+
+
 
 
 
