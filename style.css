@@ -274,8 +274,10 @@ text-transform: uppercase;
 	padding: 20px 5px;
 }
 h2.subtitle {
-	font-size: 22px;
+	font-size: 20px;
 	text-transform: uppercase;
+	font-family: 'Helvetica Now Bold', "Helvetica Neue", Helvetica, sans-serif;
+	letter-spacing: 1px;
 }
 p.photo-description {
 	font-size:13px;
@@ -398,6 +400,12 @@ p.photo-description {
 	}
 	.row-item {
 		padding: 20px 26px;
+	}
+	h2.caps {
+		font-size:24px;
+	}
+	h2.subtitle {
+		font-size: 17px;
 	}
 }
 @media all and ( min-width: 375px ) and ( max-width: 850px ) {
