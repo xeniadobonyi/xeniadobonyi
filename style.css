@@ -99,6 +99,7 @@ nav pre {
 }
 .blog-page nav pre {
 	font-size: 18px;
+	overflow: hidden;
 }
 nav h2 {
 	padding-left: 2px;
