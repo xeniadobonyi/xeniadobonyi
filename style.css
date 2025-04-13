@@ -407,6 +407,10 @@ p.photo-description {
 	h2.subtitle {
 		font-size: 17px;
 	}
+	nav pre {
+		font-size: 10px;
+
+	}
 }
 @media all and ( min-width: 375px ) and ( max-width: 850px ) {
 	nav p, nav a {
