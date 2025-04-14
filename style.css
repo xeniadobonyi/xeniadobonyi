@@ -28,6 +28,7 @@
 body {
 	font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif;
 	background-color: white;
+	box-sizing: border-box;
 }
 h1, h2, p, a {
 	font-size: 17px;
@@ -119,9 +120,15 @@ ul#titles > li > a {
 ul#texts > li {
 	padding: 20px 26px;
 	border-top: 1px solid black;
+
+	display: none;
+}
+ul#texts > li {
+	padding: 20px 26px;
 	border-bottom: 1px solid black;
 	display: none;
 }
+
 ul#texts a {
 	color: blue;
 	text-decoration: none;
@@ -130,41 +137,11 @@ ul#texts a:hover {
 	color: black;
 	text-decoration: underline;
 }
-ul#texts > li#givenchy-3d {
+.spacer {
+	height: 40px;
+}
+ul#texts > li {
 	border-top: 0;
-}
-ul#texts > li#givenchy-redesign {
-	margin-top: 39px;
-}
-ul#texts > li#givenchy-nft {
-	margin-top: 79px;
-}
-ul#texts > li#redesign {
-	margin-top: 119px;
-}
-ul#texts > li#look_and_feel {
-	margin-top: 159px;
-}
-ul#texts > li#old_redesign {
-	margin-top: 199px;
-}
-ul#texts > li#netaporter {
-	margin-top: 239px;
-}
-ul#texts > li#first_website {
-	margin-top: 279px;
-}
-ul#texts > li#about {
-	margin-top: 319px;
-}
-ul#texts > li#contact {
-	margin-top: 359px;
-}
-ul#texts > li#blog {
-	border-top: 0;
-}
-ul#texts > li > p {
-	margin-bottom: 12px;
 }
 ul#texts > li > p:last-child {
 	margin-bottom: 0;
@@ -494,7 +471,6 @@ p.photo-description {
 	}
 	ul#imagesDesktop > ul {
 		padding: 40px 26px;
-		border-top: 1px solid black;
 	}
 	ul#imagesDesktop > ul > img.hidden,ul#imagesDesktop > ul > video.hidden {
 		display: inline-block;
@@ -540,36 +516,7 @@ p.photo-description {
 		cursor: pointer;
 		float: none;
 	}
-	ul#imagesDesktop > ul.givenchy-3d {
-		border-top: 0;
-	}
-	ul#imagesDesktop > ul.givenchy-redesign {
-		margin-top: 39px;
-	}
-	ul#imagesDesktop > ul.givenchy-nft {
-		margin-top: 79px;
-	}
-	ul#imagesDesktop > ul.redesign {
-		margin-top: 119px;
-	}
-	ul#imagesDesktop > ul.look_and_feel {
-		margin-top: 159px;
-	}
-	ul#imagesDesktop > ul.old_redesign {
-		margin-top: 199px;
-	}
-	ul#imagesDesktop > ul.netaporter {
-		margin-top: 239px;
-	}
-	ul#imagesDesktop > ul.first_website {
-		margin-top: 279px;
-	}
-	ul#imagesDesktop > ul.about {
-		margin-top: 319px;
-	}
-	ul#imagesDesktop > ul.blog {
-		border-top: 0;
-	}
+
 }
 
 .flower {
