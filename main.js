@@ -1,38 +1,41 @@
 function imgShow(imgContainer) {
-	let item = $('.link');
-	item.click(function(e) {
-		let itemClass = $(this).attr('id');
-		let txtBase = 'ul#texts > li';
-		let imgBase = imgContainer;
-		let txt = $(txtBase + '.' + itemClass);
-		let img = $( imgBase + '.' + itemClass);
-		if ($(this).hasClass('selected')) {
-			//UNSELECTED
-			$(this).css('padding-left', '22px');
-			$(txtBase).hide();
-			$(imgBase).hide();
-			$(this).removeClass('selected');
-		} else {
-			//SELECTED
-			$('ul#titles > li').css('padding-left', '22px');
-			$(this).css('padding-left', '37px');
-			$(txtBase).hide();
-			$(imgBase).hide();
-			$(txt).toggle();
-			$(img).show();
-			item.removeClass('selected');
-			$(this).addClass('selected');
-		}
+	var links = document.querySelectorAll('.link');
+	links.forEach(function (link) {
+		link.addEventListener('click', function () {
+			var itemClass = link.id;
+			var txtBase = 'ul#texts > li';
+			var imgBase = imgContainer;
+			var txts = document.querySelectorAll(txtBase + '.' + itemClass);
+			var imgs = document.querySelectorAll(imgBase + '.' + itemClass);
+
+			if (link.classList.contains('selected')) {
+				//UNSELECTED
+				link.style.paddingLeft = '22px';
+				document.querySelectorAll(txtBase).forEach(function (el) { el.style.display = 'none'; });
+				document.querySelectorAll(imgBase).forEach(function (el) { el.style.display = 'none'; });
+				link.classList.remove('selected');
+			} else {
+				//SELECTED
+				document.querySelectorAll('ul#titles > li').forEach(function (el) { el.style.paddingLeft = '22px'; });
+				link.style.paddingLeft = '37px';
+				document.querySelectorAll(txtBase).forEach(function (el) { el.style.display = 'none'; });
+				document.querySelectorAll(imgBase).forEach(function (el) { el.style.display = 'none'; });
+				txts.forEach(function (el) { el.style.display = 'list-item'; });
+				imgs.forEach(function (el) { el.style.display = 'block'; });
+				links.forEach(function (el) { el.classList.remove('selected'); });
+				link.classList.add('selected');
+			}
+		});
 	});
 }
 
 
 function imagesDestopWidth() {
-	let titles = $('ul#titles');
-	let texts = $('ul#texts');
-	let imgDesktop = $('ul#imagesDesktop');
-	let width = titles.outerWidth() + texts.outerWidth();
-};
+	var titles = document.querySelector('ul#titles');
+	var texts = document.querySelector('ul#texts');
+	if (!titles || !texts) return;
+	var width = titles.offsetWidth + texts.offsetWidth;
+}
 
 document.querySelectorAll('.flower').forEach(flower => {
     const randomLeft = Math.random() * 100; // Random horizontal position (0% to 100%)
@@ -45,12 +48,8 @@ document.querySelectorAll('.flower').forEach(flower => {
 });
 
 
-$(document).ready(function() {
-	if ($(window)) {
-		imgShow('ul#imagesDesktop > ul');
-		imagesDestopWidth();
-	}
-});
+imgShow('ul#imagesDesktop > ul');
+imagesDestopWidth();
 /* ---- ASCII logo decode ---- */
 (function () {
   var el = document.getElementById('xd-logo');
@@ -93,5 +92,6 @@ $(document).ready(function() {
   }
 
   el.addEventListener('mouseenter', decode);  // replay on hover
+  el.addEventListener('click', decode);       // replay on tap (touch devices)
   decode();                                    // run once on load (logo is above the fold)
 })();
