@@ -93,5 +93,6 @@ $(document).ready(function() {
   }
 
   el.addEventListener('mouseenter', decode);  // replay on hover
+  el.addEventListener('click', decode);       // replay on tap (touch devices)
   decode();                                    // run once on load (logo is above the fold)
 })();
