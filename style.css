@@ -391,6 +391,108 @@ p.photo-description {
 		font-size: 10px;
 
 	}
+
+	/* ---- mobile: top bar + accordion index (each project opens under its own title) ---- */
+	.m-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 48px;
+		padding: 0 12px;
+		border-bottom: 1px solid black;
+	}
+	.m-bar a {
+		font-size: 13px;
+		text-decoration: none;
+	}
+	.m-bar-name {
+		font-family: courier, monospace;
+		color: black;
+	}
+	.m-bar-links {
+		display: flex;
+		gap: 16px;
+	}
+	.m-bar-links a {
+		color: blue;
+		line-height: 44px;
+	}
+	body:not(.blog-page) ul#titles {
+		border-bottom: 1px solid black;
+	}
+	body:not(.blog-page) ul#titles > li.link {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		line-height: 47px;
+		padding-left: 22px !important;
+		padding-right: 22px;
+	}
+	body:not(.blog-page) ul#titles > li.link:last-child {
+		border-bottom: 0;
+	}
+	body:not(.blog-page) ul#titles > li.link::after {
+		content: "[+]";
+		font-family: courier, monospace;
+		font-size: 14px;
+	}
+	body:not(.blog-page) ul#titles > li.link.selected::after {
+		content: "[\2013]";
+	}
+	body:not(.blog-page) ul#titles > li.link.selected > a {
+		font-family: 'Helvetica Now Bold', "Helvetica Neue", Helvetica, sans-serif;
+		font-weight: bold;
+	}
+	/* About, Contact and Blog live in the top bar; their rows only show while open */
+	body:not(.blog-page) ul#titles > li#about:not(.selected),
+	body:not(.blog-page) ul#titles > li#contact:not(.selected),
+	body:not(.blog-page) ul#titles > li#blog {
+		display: none;
+	}
+	ul#titles > li.m-panel {
+		padding: 0;
+		border-top: 0;
+		line-height: normal;
+		cursor: auto;
+	}
+	.m-panel > ul {
+		margin: 0;
+		padding: 4px 22px 0 22px;
+	}
+	.m-panel img, .m-panel video {
+		width: 100%;
+		margin: 0 0 16px 0;
+		box-sizing: border-box;
+	}
+	.m-panel .dc-wrap {
+		margin: 0 0 16px 0;
+	}
+	.m-panel > ul > pre {
+		margin: 0 0 16px 0;
+		overflow: hidden;
+	}
+	.m-panel > li {
+		padding: 0 22px 24px 22px;
+		line-height: 1.5;
+	}
+	.m-panel > li > br:first-child {
+		display: none;
+	}
+	.m-panel > li > p:first-of-type {
+		margin-top: 0;
+	}
+	.m-panel > li > p:last-child {
+		margin-bottom: 0;
+	}
+	.m-panel > li a {
+		color: blue;
+		text-decoration: none;
+	}
+}
+@media all and ( min-width: 1058px ) {
+	.m-bar {
+		display: none;
+	}
 }
 @media all and ( min-width: 375px ) and ( max-width: 850px ) {
 	nav p, nav a {

@@ -70,6 +70,67 @@ document.querySelectorAll('.link').forEach(function (link) {
 window.addEventListener('resize', snapTextToRows);
 window.addEventListener('load', snapTextToRows);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextToRows);
+
+/* ---- Mobile accordion: the open project's media and text sit under its own title.
+   The nodes are moved into a panel after the selected title, and moved back home
+   before every selection change so the desktop switcher above keeps working. ---- */
+(function () {
+	var titles = document.querySelector('ul#titles');
+	var texts = document.querySelector('ul#texts');
+	var images = document.querySelector('ul#imagesDesktop');
+	if (!titles || !texts || !images) return;
+	var mobile = window.matchMedia('(max-width: 1057px)');
+	var panel = document.createElement('li');
+	panel.className = 'm-panel';
+
+	function undock() {
+		Array.prototype.slice.call(panel.children).forEach(function (node) {
+			(node.tagName === 'LI' ? texts : images).appendChild(node);
+		});
+		if (panel.parentNode) panel.parentNode.removeChild(panel);
+	}
+	function dock() {
+		undock();
+		if (!mobile.matches) return;
+		var selected = titles.querySelector('li.link.selected');
+		if (!selected) return;
+		var media = images.querySelector(':scope > ul.' + selected.id);
+		var text = texts.querySelector(':scope > li.' + selected.id);
+		titles.insertBefore(panel, selected.nextSibling);
+		if (media) panel.appendChild(media);
+		if (text) panel.appendChild(text);
+		// closing a panel above the tapped row shifts the page; keep the row in view
+		if (selected.getBoundingClientRect().top < 0) selected.scrollIntoView({ block: 'start' });
+		// a moved video stops; start it again
+		panel.querySelectorAll('video').forEach(function (v) {
+			var p = v.play();
+			if (p && p.catch) p.catch(function () {});
+		});
+	}
+
+	// capture phase: runs before the switcher's own click handlers
+	document.addEventListener('click', function (e) {
+		if (e.target.closest && e.target.closest('ul#titles > li.link')) undock();
+	}, true);
+	titles.querySelectorAll('li.link').forEach(function (link) {
+		link.addEventListener('click', dock);
+	});
+	if (mobile.addEventListener) mobile.addEventListener('change', dock);
+	else if (mobile.addListener) mobile.addListener(dock);
+
+	// top bar: About and Contact open their entry and scroll to it
+	document.querySelectorAll('.m-bar a[data-open]').forEach(function (a) {
+		a.addEventListener('click', function (e) {
+			var row = titles.querySelector('li#' + a.getAttribute('data-open'));
+			if (!row) return;
+			e.preventDefault();
+			if (!row.classList.contains('selected')) row.click();
+			row.scrollIntoView({ block: 'start' });
+		});
+	});
+
+	dock();
+})();
 /* ---- ASCII logo decode ---- */
 (function () {
   var el = document.getElementById('xd-logo');
