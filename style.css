@@ -396,18 +396,14 @@ p.photo-description {
 	.m-bar {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		min-height: 48px;
-		padding: 0 12px;
-		border-top: 1px solid black;
+		justify-content: flex-start;
+		min-height: 44px;
+		margin-top: -6px;
+		padding: 0 16px;
 	}
 	.m-bar a {
 		font-size: 13px;
 		text-decoration: none;
-	}
-	.m-bar-name {
-		font-family: courier, monospace;
-		color: black;
 	}
 	.m-bar-links {
 		display: flex;
@@ -420,13 +416,27 @@ p.photo-description {
 	body:not(.blog-page) ul#titles {
 		border-bottom: 1px solid black;
 	}
+	/* one 16px left edge for logo, headline, nav and years */
+	body:not(.blog-page) > nav {
+		padding: 0 16px;
+		margin: 0;
+		box-sizing: border-box;
+	}
+	body:not(.blog-page) > nav h2.description {
+		padding-left: 0;
+		margin: 8px 0 0 0;
+		line-height: 18px;
+	}
+	body:not(.blog-page) > nav h2.description a {
+		padding: 0;
+	}
 	body:not(.blog-page) ul#titles > li.link {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		line-height: 47px;
-		padding-left: 22px !important;
-		padding-right: 22px;
+		padding-left: 16px !important;
+		padding-right: 16px;
 	}
 	body:not(.blog-page) ul#titles > li.link:last-child {
 		border-bottom: 0;
@@ -457,7 +467,7 @@ p.photo-description {
 	}
 	.m-panel > ul {
 		margin: 0;
-		padding: 4px 22px 0 22px;
+		padding: 4px 16px 0 16px;
 	}
 	.m-panel img, .m-panel video {
 		width: 100%;
@@ -472,7 +482,7 @@ p.photo-description {
 		overflow: hidden;
 	}
 	.m-panel > li {
-		padding: 0 22px 24px 22px;
+		padding: 0 16px 24px 16px;
 		line-height: 1.5;
 	}
 	.m-panel > li > br:first-child {
@@ -487,6 +497,17 @@ p.photo-description {
 	.m-panel > li a {
 		color: blue;
 		text-decoration: none;
+	}
+}
+/* narrow phones: shrink the ASCII logo so it fits inside the 16px margins */
+@media all and ( max-width: 389px ) {
+	body:not(.blog-page) > nav pre {
+		font-size: 9px;
+	}
+}
+@media all and ( max-width: 359px ) {
+	body:not(.blog-page) > nav pre {
+		font-size: 8px;
 	}
 }
 @media all and ( min-width: 1058px ) {
