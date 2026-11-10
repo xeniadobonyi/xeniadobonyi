@@ -128,7 +128,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
   // Same cover lookup the real site uses; the pink label with the artist name stays if it fails.
   var img = new Image();
   img.onload = function () { label.style.backgroundImage = 'url("' + img.src + '")'; label.textContent = ''; };
-  img.src = 'https://digdeepmusic.com/api/cover?artist=Patti%20Austin&album=Havana%20Candy';
+  img.src = 'https://digdeepcuts.com/api/cover?artist=Patti%20Austin&album=Havana%20Candy';
 
   function toggle() {
     var playing = spin.classList.toggle('playing');
