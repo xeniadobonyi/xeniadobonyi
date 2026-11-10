@@ -8,22 +8,18 @@
 @font-face {
 	font-family: 'Helvetica Now';
 	font-style: normal;
-	src: url('font/HelveticaNowText-Regular.eot');
-	src: url('font/HelveticaNowText-Regular.eot?#iefix') format('embedded-opentype'),
-	url('font/HelveticaNowText-Regular.woff2') format('woff2'),
-	url('font/HelveticaNowText-Regular.woff') format('woff'),
-	url('font/HelveticaNowText-Regular.ttf') format('truetype'),
-	url('font/HelveticaNowText-Regular.svg#svgFontName') format('svg');
+	font-weight: normal;
+	font-display: swap;
+	src: url('font/HelveticaNowText-Regular.woff2') format('woff2'),
+	url('font/HelveticaNowText-Regular.woff') format('woff');
 }
 @font-face {
 	font-family: 'Helvetica Now Bold';
-	font-style: bold;
-	src: url('font/HelveticaNowDisplay-Bold.eot');
-	src: url('font/HelveticaNowDisplay-Bold.eot?#iefix') format('embedded-opentype'),
-	url('font/HelveticaNowDisplay-Bold.woff2') format('woff2'),
-	url('font/HelveticaNowDisplay-Bold.woff') format('woff'),
-	url('font/HelveticaNowDisplay-Bold.ttf') format('truetype'),
-	url('font/HelveticaNowDisplay-Bold.svg#svgFontName') format('svg');
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+	src: url('font/HelveticaNowDisplay-Bold.woff2') format('woff2'),
+	url('font/HelveticaNowDisplay-Bold.woff') format('woff');
 }
 body {
 	font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif;
@@ -43,12 +39,17 @@ h1, h2, p, a {
 .blog-page div {
 	color:  #4E342E
 }
+/* visually hidden, still read by screen readers and search engines */
 h1.title {
-	visibility: hidden;
-	padding: 0;
-	margin: 0;
-	font-size: 1px;
 	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
 }
 h2.description {
 	font-size: 12px;
@@ -59,7 +60,6 @@ h2.description {
 }
 .link.selected a {
 	color: black;
-	text-transform: italic;
 }
 a {
 	text-decoration: underline;
@@ -81,7 +81,7 @@ nav a {
 	text-decoration: none;
 }
 .blog-page a {
-	color: orange ;
+	color: #b35c00;
 	text-decoration: none;
 }
 .blog-page a:hover {
@@ -120,12 +120,6 @@ ul#titles > li > a {
 }
 ul#texts > li {
 	padding: 20px 26px;
-	border-top: 1px solid black;
-
-	display: none;
-}
-ul#texts > li {
-	padding: 20px 26px;
 	border-bottom: 1px solid black;
 	display: none;
 }
@@ -140,9 +134,6 @@ ul#texts a:hover {
 }
 .spacer {
 	height: 40px;
-}
-ul#texts > li {
-	border-top: 0;
 }
 ul#texts > li > p:last-child {
 	margin-bottom: 0;
@@ -188,7 +179,7 @@ h2.caps {
 	font-weight: normal;
 }
 p.date {
-	color: #f17141;
+	color: #c4441a;
 	font-size: 15px;
 text-transform: uppercase;
 }
@@ -301,19 +292,7 @@ p.photo-description {
 	.blog-page #wrap > ul {
 		overflow: visible;
 	}
-	ul#texts > li#deepcuts,
-	ul#texts > li#givenchy-3d,
-	ul#texts > li#givenchy-redesign,
-	ul#texts > li#givenchy-nft,
-	ul#texts > li#redesign,
-	ul#texts > li#single_page_checkout,
-	ul#texts > li#look_and_feel,
-	ul#texts > li#old_redesign,
-	ul#texts > li#netaporter,
-	ul#texts > li#first_website,
-	ul#texts > li#about,
-	ul#texts > li#contact,
-	ul#texts > li#blog {
+	ul#texts > li {
 		margin-top: 18px;
 	}
 	ul#texts > li {
@@ -485,9 +464,6 @@ p.photo-description {
 		padding: 0 16px 24px 16px;
 		line-height: 1.5;
 	}
-	.m-panel > li > br:first-child {
-		display: none;
-	}
 	.m-panel > li > p:first-of-type {
 		margin-top: 0;
 	}
@@ -544,7 +520,6 @@ p.photo-description {
 	nav {
 		line-height: 50px;
 		border-bottom: 1px solid black;
-		background-color: cantaloupe;
 		color: black;
 	}
 	.blog-page nav {
@@ -579,8 +554,8 @@ p.photo-description {
 		border-right: 1px solid black;
 		overflow-y: auto;
 	}
-	ul#texts > li > br:first-child {
-		display: none;
+	ul#titles > li.link.selected {
+		padding-left: 37px;
 	}
 	/* every title row is exactly 40px, so the row lines form an even grid */
 	ul#titles > li {
@@ -837,4 +812,16 @@ p.photo-description {
 	.dc-body { grid-template-columns: 1fr; grid-template-areas: "deck" "name" "meta" "react" "why"; row-gap: 8px; }
 	.dc-deck { justify-self: start; margin-bottom: 6px; }
 	.dc-album { display: inline; }
+}
+
+/* Links inside sentences are underlined, so they don't rely on colour alone. */
+#wrap p a,
+body > nav h2.description a {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+a:focus-visible,
+button:focus-visible {
+	outline: 2px solid blue;
+	outline-offset: 2px;
 }

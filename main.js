@@ -1,50 +1,50 @@
+/* ---- Project list: each title opens its text and media.
+   Titles are links to #id for no-JS fallback; with JS they act as disclosure buttons. ---- */
 function imgShow(imgContainer) {
-	var links = document.querySelectorAll('.link');
+	var links = document.querySelectorAll('ul#titles > li.link');
+	var txtBase = 'ul#texts > li';
+	function sync() {
+		links.forEach(function (l) {
+			var a = l.querySelector('a');
+			if (a && a.getAttribute('role') === 'button') a.setAttribute('aria-expanded', l.classList.contains('selected') ? 'true' : 'false');
+		});
+	}
 	links.forEach(function (link) {
+		var a = link.querySelector('a');
+		// Blog is a real page link; every other title toggles a panel.
+		if (a && !a.classList.contains('bloglink')) {
+			a.setAttribute('role', 'button');
+			if (document.getElementById('text-' + link.id)) a.setAttribute('aria-controls', 'text-' + link.id);
+			a.addEventListener('click', function (e) { e.preventDefault(); });
+			a.addEventListener('keydown', function (e) {
+				if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); link.click(); }
+			});
+		}
 		link.addEventListener('click', function () {
 			var itemClass = link.id;
-			var txtBase = 'ul#texts > li';
-			var imgBase = imgContainer;
 			var txts = document.querySelectorAll(txtBase + '.' + itemClass);
-			var imgs = document.querySelectorAll(imgBase + '.' + itemClass);
-
-			if (link.classList.contains('selected')) {
-				//UNSELECTED
-				link.style.paddingLeft = '22px';
-				document.querySelectorAll(txtBase).forEach(function (el) { el.style.display = 'none'; });
-				document.querySelectorAll(imgBase).forEach(function (el) { el.style.display = 'none'; });
-				link.classList.remove('selected');
-			} else {
-				//SELECTED
-				document.querySelectorAll('ul#titles > li').forEach(function (el) { el.style.paddingLeft = '22px'; });
-				link.style.paddingLeft = '37px';
-				document.querySelectorAll(txtBase).forEach(function (el) { el.style.display = 'none'; });
-				document.querySelectorAll(imgBase).forEach(function (el) { el.style.display = 'none'; });
+			var imgs = document.querySelectorAll(imgContainer + '.' + itemClass);
+			var wasOpen = link.classList.contains('selected');
+			document.querySelectorAll(txtBase).forEach(function (el) { el.style.display = 'none'; });
+			document.querySelectorAll(imgContainer).forEach(function (el) { el.style.display = 'none'; });
+			links.forEach(function (el) { el.classList.remove('selected'); });
+			if (!wasOpen) {
 				txts.forEach(function (el) { el.style.display = 'list-item'; });
 				imgs.forEach(function (el) { el.style.display = 'block'; });
-				links.forEach(function (el) { el.classList.remove('selected'); });
 				link.classList.add('selected');
 			}
+			sync();
 		});
 	});
+	sync();
 }
 
-
-function imagesDestopWidth() {
-	var titles = document.querySelector('ul#titles');
-	var texts = document.querySelector('ul#texts');
-	if (!titles || !texts) return;
-	var width = titles.offsetWidth + texts.offsetWidth;
-}
-
-document.querySelectorAll('.flower').forEach(flower => {
-    const randomLeft = Math.random() * 100; // Random horizontal position (0% to 100%)
-    const randomDelay = Math.random() * 10; // Random animation delay (0s to 10s)
-    const randomDuration = Math.random() * 20 + 20; // Random fall duration (20s to 40s)
-
-    flower.style.left = `${randomLeft}%`;
-    flower.style.animationDelay = `${randomDelay}s`;
-    flower.querySelector('.inner').style.animationDuration = `${randomDuration}s`;
+/* Blog pages: falling flowers. */
+document.querySelectorAll('.flower').forEach(function (flower) {
+	flower.style.left = (Math.random() * 100) + '%';
+	flower.style.animationDelay = (Math.random() * 10) + 's';
+	var inner = flower.querySelector('.inner');
+	if (inner) inner.style.animationDuration = (Math.random() * 20 + 20) + 's';
 });
 
 
@@ -62,7 +62,6 @@ function snapTextToRows() {
 }
 
 imgShow('ul#imagesDesktop > ul');
-imagesDestopWidth();
 snapTextToRows();
 document.querySelectorAll('.link').forEach(function (link) {
 	link.addEventListener('click', snapTextToRows);
@@ -101,11 +100,6 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 		if (text) panel.appendChild(text);
 		// closing a panel above the tapped row shifts the page; keep the row in view
 		if (selected.getBoundingClientRect().top < 0) selected.scrollIntoView({ block: 'start' });
-		// a moved video stops; start it again
-		panel.querySelectorAll('video').forEach(function (v) {
-			var p = v.play();
-			if (p && p.catch) p.catch(function () {});
-		});
 	}
 
 	// capture phase: runs before the switcher's own click handlers
@@ -149,6 +143,46 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 	}
 	dock();
 })();
+/* ---- Videos load only when their project is open, and play muted on a loop.
+   With reduced motion they stay still, with controls to play by choice. ---- */
+(function () {
+	var videos = document.querySelectorAll('video.video[data-poster]');
+	if (!videos.length) return;
+	var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	function syncVideos() {
+		videos.forEach(function (v) {
+			var open = v.parentElement && v.parentElement.style.display === 'block';
+			if (open) {
+				// the poster frame is only fetched once the project is opened
+				if (v.dataset.poster && !v.poster) v.poster = v.dataset.poster;
+				if (v.preload !== 'auto') v.preload = 'auto';
+				if (still) { v.controls = true; return; }
+				var p = v.play(); if (p && p.catch) p.catch(function () {});
+			} else if (!v.paused) v.pause();
+		});
+	}
+	document.querySelectorAll('ul#titles > li.link').forEach(function (l) { l.addEventListener('click', syncVideos); });
+	window.matchMedia('(max-width: 1057px)').addEventListener && window.matchMedia('(max-width: 1057px)').addEventListener('change', syncVideos);
+	syncVideos();
+})();
+
+/* ---- Blog videos: load and play only while on screen. ---- */
+(function () {
+	var vids = document.querySelectorAll('video[data-autoplay]');
+	if (!vids.length) return;
+	var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	function play(v) {
+		v.preload = 'auto';
+		if (still) { v.controls = true; return; }
+		var p = v.play(); if (p && p.catch) p.catch(function () {});
+	}
+	if (!('IntersectionObserver' in window)) { vids.forEach(play); return; }
+	var io = new IntersectionObserver(function (entries) {
+		entries.forEach(function (e) { if (e.isIntersecting) play(e.target); else if (!e.target.paused) e.target.pause(); });
+	}, { rootMargin: '200px 0px' });
+	vids.forEach(function (v) { io.observe(v); });
+})();
+
 /* ---- ASCII logo decode ---- */
 (function () {
   var el = document.getElementById('xd-logo');
@@ -207,12 +241,12 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
   var love = document.getElementById('dcLove');
   var label = document.getElementById('dcLabel');
   var line = document.getElementById('dcPreview');
-  var ARTIST = 'Patti Austin', ALBUM = 'Havana Candy';
+  var ARTIST = 'Gino Vannelli', ALBUM = 'Powerful People', SONG = 'People Gotta Move';
 
   // Same cover lookup the real site uses; the pink label with the artist name stays if it fails.
   var img = new Image();
   img.onload = function () { label.style.backgroundImage = 'url("' + img.src + '")'; label.textContent = ''; };
-  img.src = 'https://digdeepcuts.com/api/cover?artist=Patti%20Austin&album=Havana%20Candy';
+  img.src = 'https://digdeepcuts.com/api/cover?artist=Gino%20Vannelli&album=Powerful%20People';
 
   var audio = typeof Audio === 'function' ? new Audio() : null;
   var clip = null, looking = null, n = 0;
@@ -232,9 +266,9 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
     document.head.appendChild(s);
   }
   function same(a, b) { return String(a || '').toLowerCase().indexOf(b.toLowerCase()) === 0; }
-  function pick(list) { // the title track if it has a preview, else the album's first track that does
+  function pick(list) { // "People Gotta Move" if it has a preview, else the album's first track that does
     var ok = list.filter(function (t) { return t.preview && same(t.artist, ARTIST) && same(t.album, ALBUM); });
-    return ok.filter(function (t) { return same(t.title, ALBUM); })[0] || ok[0] || null;
+    return ok.filter(function (t) { return same(t.title, SONG); })[0] || ok[0] || null;
   }
   function deezer(done) {
     jsonp('https://api.deezer.com/search?output=jsonp&limit=50&q=' + encodeURIComponent('artist:"' + ARTIST + '" album:"' + ALBUM + '"'), function (d) {
