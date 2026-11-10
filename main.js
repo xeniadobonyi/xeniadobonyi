@@ -115,8 +115,16 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 	titles.querySelectorAll('li.link').forEach(function (link) {
 		link.addEventListener('click', dock);
 	});
-	if (mobile.addEventListener) mobile.addEventListener('change', dock);
-	else if (mobile.addListener) mobile.addListener(dock);
+	// desktop always shows a project; open the first one if nothing is open
+	function onResize() {
+		if (!mobile.matches && !titles.querySelector('li.link.selected')) {
+			var first = titles.querySelector('li.link');
+			if (first) first.click();
+		}
+		dock();
+	}
+	if (mobile.addEventListener) mobile.addEventListener('change', onResize);
+	else if (mobile.addListener) mobile.addListener(onResize);
 
 	// top bar: About and Contact open their entry and scroll to it
 	document.querySelectorAll('.m-bar a[data-open]').forEach(function (a) {
@@ -129,6 +137,16 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 		});
 	});
 
+	// mobile starts with every project collapsed (desktop keeps deep cuts open)
+	if (mobile.matches) {
+		var open = titles.querySelector('li.link.selected');
+		if (open) open.click();
+	}
+	// mobile starts with every project collapsed; desktop keeps the first one open
+	if (mobile.matches) {
+		var open = titles.querySelector('li.link.selected');
+		if (open) open.click();
+	}
 	dock();
 })();
 /* ---- ASCII logo decode ---- */
