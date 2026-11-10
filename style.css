@@ -301,6 +301,7 @@ p.photo-description {
 	.blog-page #wrap > ul {
 		overflow: visible;
 	}
+	ul#texts > li#deepcuts,
 	ul#texts > li#givenchy-3d,
 	ul#texts > li#givenchy-redesign,
 	ul#texts > li#givenchy-nft,
@@ -453,9 +454,18 @@ p.photo-description {
 	ul#texts {
 		border-left: 1px solid black;
 		border-right: 1px solid black;
+		overflow-y: auto;
 	}
 	ul#texts > li > br:first-child {
 		display: none;
+	}
+	/* every title row is exactly 40px, so the row lines form an even grid */
+	ul#titles > li {
+		height: 40px;
+	}
+	/* first line of text sits on the same line as the first title */
+	ul#texts > li {
+		padding-top: 7px;
 	}
 	.blog-page #imagesDesktop {
 		border-left: 1px solid #4E342E;

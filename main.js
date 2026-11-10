@@ -48,8 +48,28 @@ document.querySelectorAll('.flower').forEach(flower => {
 });
 
 
+/* Desktop: grow the open text panel to the next title-row line,
+   so its bottom border lines up with a line in the titles column. */
+function snapTextToRows() {
+	var row = document.querySelector('ul#titles > li');
+	var desktop = window.matchMedia('(min-width: 1058px)').matches;
+	document.querySelectorAll('ul#texts > li').forEach(function (li) {
+		li.style.minHeight = '';
+		if (!desktop || !row || li.offsetHeight === 0) return;
+		var rowHeight = row.offsetHeight;
+		li.style.minHeight = Math.ceil(li.offsetHeight / rowHeight) * rowHeight + 'px';
+	});
+}
+
 imgShow('ul#imagesDesktop > ul');
 imagesDestopWidth();
+snapTextToRows();
+document.querySelectorAll('.link').forEach(function (link) {
+	link.addEventListener('click', snapTextToRows);
+});
+window.addEventListener('resize', snapTextToRows);
+window.addEventListener('load', snapTextToRows);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextToRows);
 /* ---- ASCII logo decode ---- */
 (function () {
   var el = document.getElementById('xd-logo');
