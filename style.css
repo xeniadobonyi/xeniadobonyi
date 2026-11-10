@@ -454,6 +454,9 @@ p.photo-description {
 		border-left: 1px solid black;
 		border-right: 1px solid black;
 	}
+	ul#texts > li > br:first-child {
+		display: none;
+	}
 	.blog-page #imagesDesktop {
 		border-left: 1px solid #4E342E;
 		border-right: 1px solid #4E342E;
