@@ -143,27 +143,67 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 	}
 	dock();
 })();
-/* ---- Videos load only when their project is open, and play muted on a loop.
+/* ---- Videos: play muted on a loop when their project is open.
+   They don't hold up the first paint: once the page has loaded, poster frames are
+   fetched and the videos are warmed up one by one in list order (skipped with
+   Save-Data or on a slow connection). Hovering, touching or focusing a title starts
+   its video downloading straight away, so it is ready when the project opens.
    With reduced motion they stay still, with controls to play by choice. ---- */
 (function () {
-	var videos = document.querySelectorAll('video.video[data-poster]');
+	var videos = Array.prototype.slice.call(document.querySelectorAll('video.video[data-poster]'));
 	if (!videos.length) return;
 	var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	function warm(v) {
+		if (v.dataset.poster && !v.poster) v.poster = v.dataset.poster;
+		if (v.preload !== 'auto') {
+			v.preload = 'auto';
+			if (v.readyState === 0) v.load();
+		}
+	}
+	function videoFor(link) {
+		var box = document.querySelector('ul.' + link.id + ' > video, .m-panel ul.' + link.id + ' > video');
+		return box && videos.indexOf(box) > -1 ? box : null;
+	}
 	function syncVideos() {
 		videos.forEach(function (v) {
 			var open = v.parentElement && v.parentElement.style.display === 'block';
 			if (open) {
-				// the poster frame is only fetched once the project is opened
-				if (v.dataset.poster && !v.poster) v.poster = v.dataset.poster;
-				if (v.preload !== 'auto') v.preload = 'auto';
+				warm(v);
 				if (still) { v.controls = true; return; }
 				var p = v.play(); if (p && p.catch) p.catch(function () {});
 			} else if (!v.paused) v.pause();
 		});
 	}
-	document.querySelectorAll('ul#titles > li.link').forEach(function (l) { l.addEventListener('click', syncVideos); });
-	window.matchMedia('(max-width: 1057px)').addEventListener && window.matchMedia('(max-width: 1057px)').addEventListener('change', syncVideos);
+	document.querySelectorAll('ul#titles > li.link').forEach(function (l) {
+		l.addEventListener('click', syncVideos);
+		function intent() { var v = videoFor(l); if (v) warm(v); }
+		l.addEventListener('pointerenter', intent);
+		l.addEventListener('touchstart', intent, { passive: true });
+		l.addEventListener('focusin', intent);
+	});
+	var mq = window.matchMedia('(max-width: 1057px)');
+	if (mq.addEventListener) mq.addEventListener('change', syncVideos);
 	syncVideos();
+
+	// after load: posters for every project, then warm the videos one at a time
+	function background() {
+		videos.forEach(function (v) { if (v.dataset.poster && !v.poster) v.poster = v.dataset.poster; });
+		var c = navigator.connection || {};
+		if (c.saveData || /(^|-)2g$/.test(c.effectiveType || '')) return;
+		var i = 0;
+		(function next() {
+			while (i < videos.length && videos[i].readyState >= 3) i++;
+			if (i >= videos.length) return;
+			var v = videos[i++], done = false;
+			function go() { if (done) return; done = true; v.removeEventListener('canplaythrough', go); v.removeEventListener('error', go); setTimeout(next, 100); }
+			v.addEventListener('canplaythrough', go);
+			v.addEventListener('error', go);
+			setTimeout(go, 8000); // don't let one slow video hold up the rest
+			warm(v);
+		})();
+	}
+	function later() { (window.requestIdleCallback || function (f) { setTimeout(f, 300); })(background); }
+	if (document.readyState === 'complete') later(); else window.addEventListener('load', later);
 })();
 
 /* ---- Blog videos: load and play only while on screen. ---- */
