@@ -647,3 +647,68 @@ p.photo-description {
 .flower:nth-of-type(8) { left: 75%; -webkit-animation-delay: 9.5s; animation-delay: 9.5s; }
 .flower:nth-of-type(9) { left: 85%; -webkit-animation-delay: 20.5s; animation-delay: 20.5s; }
 .flower:nth-of-type(10) { left: 95%; -webkit-animation-delay: 14s; animation-delay: 14s; }
+
+/* ---- deep cuts player (portfolio demo: one record, spinning, no sound).
+   Styles ported from github.com/xeniadobonyi/deepcuts, namespaced dc-. ---- */
+.dc-wrap {
+	--dc-surface: #ffffff; --dc-fg: #111111; --dc-muted: #5f5f5f; --dc-pink: #ff2d95; --dc-link: #1a33d6;
+	--dc-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	--dc-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+	container-type: inline-size;
+	max-width: 600px;
+	margin: 0 2.5% 5% 2.5%;
+	text-align: left;
+}
+.dc-spin { display: flex; flex-direction: column; gap: 12px; background: var(--dc-surface); border: 1px solid var(--dc-fg); padding: 16px; color: var(--dc-fg); font-family: var(--dc-sans); font-size: 15px; line-height: 1.55; }
+.dc-spin a { font-size: inherit; color: var(--dc-link); text-decoration: underline; text-underline-offset: 2px; }
+.dc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.dc-title { font-family: var(--dc-mono); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.dc-source { font-family: var(--dc-mono); font-size: 12px; color: var(--dc-muted); }
+.dc-body { display: grid; grid-template-columns: auto 1fr; grid-template-areas: "deck name" "deck meta" "deck why" "deck react"; column-gap: 18px; row-gap: 6px; align-items: start; align-content: center; }
+.dc-deck { grid-area: deck; align-self: center; position: relative; width: 120px; height: 120px; flex-shrink: 0; }
+.dc-name { grid-area: name; font-size: 17px; line-height: 1.25; overflow-wrap: break-word; min-width: 0; }
+.dc-meta { grid-area: meta; font-family: var(--dc-mono); font-size: 12px; color: var(--dc-muted); }
+.dc-meta .dc-on { color: var(--dc-fg); letter-spacing: .08em; }
+.dc-meta .dc-off { opacity: .45; letter-spacing: .08em; }
+.dc-spin .dc-meta a { color: inherit; }
+.dc-why { grid-area: why; max-width: 62ch; }
+.dc-react { grid-area: react; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.dc-disc { position: relative; width: 100%; height: 100%; border-radius: 50%; background: repeating-radial-gradient(circle, #1d1d1d 0 2px, #111 2px 4px); display: flex; align-items: center; justify-content: center; cursor: pointer; animation: dc-spin 6s linear infinite; animation-play-state: paused; }
+.dc-spin.playing .dc-disc { animation-play-state: running; }
+.dc-label { width: 46%; height: 46%; border-radius: 50%; background: var(--dc-pink) center / cover no-repeat; overflow: hidden; display: flex; align-items: center; justify-content: center; font-family: var(--dc-mono); font-size: 7px; font-weight: 700; color: #111; text-align: center; line-height: 1.2; padding: 4px; }
+.dc-hole { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: var(--dc-surface); }
+@keyframes dc-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .dc-disc { animation: none; } }
+.dc-play { position: absolute; right: -4px; bottom: -4px; width: 36px; height: 36px; border-radius: 50%; background: #111; border: 0; box-shadow: 0 0 0 3px var(--dc-surface); padding: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.dc-play::before { content: ""; margin-left: 3px; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent var(--dc-pink); }
+.dc-play[aria-pressed="true"]::before { margin-left: 0; width: 3px; height: 11px; border: 0; border-left: 3px solid var(--dc-pink); border-right: 3px solid var(--dc-pink); padding-left: 2.5px; box-sizing: content-box; }
+.dc-play:hover { transform: scale(1.08); }
+.dc-play:focus-visible { outline: 2px solid var(--dc-fg); outline-offset: 2px; }
+.dc-chip { font: inherit; font-size: 14px; background: var(--dc-surface); color: var(--dc-fg); border: 1px solid var(--dc-muted); border-radius: 3px; padding: 6px 12px; min-height: 36px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.dc-chip { white-space: nowrap; }
+.dc-chip svg { width: 15px; height: 15px; fill: none; stroke: var(--dc-pink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.dc-chip:hover { border-color: var(--dc-fg); }
+.dc-chip[aria-pressed="true"] { background: var(--dc-pink); border-color: var(--dc-pink); color: #111; font-weight: 700; }
+.dc-chip[aria-pressed="true"] svg { stroke: #111; fill: #111; stroke-width: 2.2; }
+.dc-links { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; }
+.dc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.dc-break { display: none; }
+.dc-spin .dc-btn { font: inherit; font-size: 16px; font-weight: 700; line-height: 1.4; min-height: 44px; display: inline-flex; align-items: center; color: var(--dc-surface); background: var(--dc-fg); border: 1px solid var(--dc-fg); border-radius: 3px; padding: 10px 20px; cursor: pointer; text-decoration: none; }
+.dc-spin .dc-btn:hover { opacity: .85; }
+.dc-spin .dc-btn.dc-ghost { color: var(--dc-fg); background: var(--dc-surface); border-color: var(--dc-muted); font-weight: 500; font-size: 15px; min-height: 40px; padding: 8px 14px; }
+.dc-spin .dc-btn.dc-ghost:hover { opacity: 1; border-color: var(--dc-fg); }
+.dc-spin .dc-btn:disabled { opacity: .4; cursor: default; }
+/* Narrow column or phone: same layout the app uses on phones. */
+@container (max-width: 520px) {
+	.dc-body { grid-template-areas: "deck name" "deck meta" "deck react" "why why"; column-gap: 14px; }
+	.dc-why { margin-top: 8px; }
+	.dc-album { display: block; }
+	.dc-counts { display: none; }
+	.dc-break { display: block; flex-basis: 100%; height: 0; }
+}
+/* Very narrow column (small laptop windows): the record sits above the text. */
+@container (max-width: 320px) {
+	.dc-body { grid-template-columns: 1fr; grid-template-areas: "deck" "name" "meta" "react" "why"; row-gap: 8px; }
+	.dc-deck { justify-self: start; margin-bottom: 6px; }
+	.dc-album { display: inline; }
+}

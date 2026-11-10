@@ -115,3 +115,29 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
   el.addEventListener('click', decode);       // replay on tap (touch devices)
   decode();                                    // run once on load (logo is above the fold)
 })();
+
+/* ---- deep cuts player demo: the record spins, no sound ---- */
+(function () {
+  var spin = document.querySelector('.dc-spin');
+  if (!spin) return;
+  var disc = document.getElementById('dcDisc');
+  var play = document.getElementById('dcPlay');
+  var love = document.getElementById('dcLove');
+  var label = document.getElementById('dcLabel');
+
+  // Same cover lookup the real site uses; the pink label with the artist name stays if it fails.
+  var img = new Image();
+  img.onload = function () { label.style.backgroundImage = 'url("' + img.src + '")'; label.textContent = ''; };
+  img.src = 'https://digdeepmusic.com/api/cover?artist=Patti%20Austin&album=Havana%20Candy';
+
+  function toggle() {
+    var playing = spin.classList.toggle('playing');
+    play.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    play.setAttribute('aria-label', playing ? 'Pause the record' : 'Spin the record');
+  }
+  play.addEventListener('click', toggle);
+  disc.addEventListener('click', toggle);
+  love.addEventListener('click', function () {
+    love.setAttribute('aria-pressed', love.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+  });
+})();
