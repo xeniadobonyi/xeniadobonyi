@@ -195,7 +195,10 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
   decode();                                    // run once on load (logo is above the fold)
 })();
 
-/* ---- deep cuts player demo: the record spins, no sound ---- */
+/* ---- deep cuts player: tap play for a 30-second preview of the record ----
+   Same sources as digdeepcuts.com: Deezer first, then Apple Music. Both are asked
+   from the browser (JSONP), so nothing runs on this site's side. Preview links
+   expire, so a failed one is looked up again on the next tap. */
 (function () {
   var spin = document.querySelector('.dc-spin');
   if (!spin) return;
@@ -203,20 +206,107 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
   var play = document.getElementById('dcPlay');
   var love = document.getElementById('dcLove');
   var label = document.getElementById('dcLabel');
+  var line = document.getElementById('dcPreview');
+  var ARTIST = 'Patti Austin', ALBUM = 'Havana Candy';
 
   // Same cover lookup the real site uses; the pink label with the artist name stays if it fails.
   var img = new Image();
   img.onload = function () { label.style.backgroundImage = 'url("' + img.src + '")'; label.textContent = ''; };
   img.src = 'https://digdeepcuts.com/api/cover?artist=Patti%20Austin&album=Havana%20Candy';
 
-  function toggle() {
-    var playing = spin.classList.toggle('playing');
-    play.setAttribute('aria-pressed', playing ? 'true' : 'false');
-    play.setAttribute('aria-label', playing ? 'Pause the record' : 'Spin the record');
+  var audio = typeof Audio === 'function' ? new Audio() : null;
+  var clip = null, looking = null, n = 0;
+
+  function jsonp(url, done) {
+    var name = 'dcCb' + Date.now() + (n++), s = document.createElement('script'), over = false;
+    function finish(data) {
+      if (over) return; over = true;
+      try { delete window[name]; } catch (e) { window[name] = undefined; }
+      if (s.parentNode) s.parentNode.removeChild(s);
+      done(data);
+    }
+    window[name] = finish;
+    s.src = url + (url.indexOf('?') < 0 ? '?' : '&') + 'callback=' + name;
+    s.onerror = function () { finish(null); };
+    setTimeout(function () { finish(null); }, 8000);
+    document.head.appendChild(s);
+  }
+  function same(a, b) { return String(a || '').toLowerCase().indexOf(b.toLowerCase()) === 0; }
+  function pick(list) { // the title track if it has a preview, else the album's first track that does
+    var ok = list.filter(function (t) { return t.preview && same(t.artist, ARTIST) && same(t.album, ALBUM); });
+    return ok.filter(function (t) { return same(t.title, ALBUM); })[0] || ok[0] || null;
+  }
+  function deezer(done) {
+    jsonp('https://api.deezer.com/search?output=jsonp&limit=50&q=' + encodeURIComponent('artist:"' + ARTIST + '" album:"' + ALBUM + '"'), function (d) {
+      done(pick(((d && d.data) || []).map(function (t) {
+        return { preview: t.preview, title: t.title_short || t.title, artist: t.artist && t.artist.name, album: t.album && t.album.title, link: t.link, source: 'Deezer' };
+      })));
+    });
+  }
+  function apple(done) {
+    jsonp('https://itunes.apple.com/search?entity=song&limit=50&term=' + encodeURIComponent(ARTIST + ' ' + ALBUM), function (d) {
+      done(pick(((d && d.results) || []).map(function (t) {
+        return { preview: t.previewUrl, title: t.trackName, artist: t.artistName, album: t.collectionName, link: t.trackViewUrl, source: 'Apple Music' };
+      })));
+    });
+  }
+  function find(done) {
+    if (clip) return done(clip);
+    if (looking) return looking.push(done);
+    looking = [done];
+    deezer(function (c) {
+      function out(c) { clip = c; var w = looking; looking = null; w.forEach(function (f) { f(c); }); }
+      if (c) out(c); else apple(out);
+    });
+  }
+
+  function show(state) { // 'play' (stopped), 'pause' (playing), 'busy' (starting)
+    var on = state === 'pause';
+    spin.classList.toggle('playing', on);
+    play.setAttribute('aria-pressed', on ? 'true' : 'false');
+    play.setAttribute('aria-busy', state === 'busy' ? 'true' : 'false');
+    play.setAttribute('aria-label', on ? 'Pause the preview' : 'Play a 30-second preview');
+    if (!clip) return;
+    var src = document.createElement('a');
+    src.href = clip.link || '#'; src.target = '_blank'; src.rel = 'noopener'; src.textContent = clip.source;
+    line.textContent = '';
+    line.appendChild(document.createTextNode((on ? 'Playing “' : 'Press play: “') + clip.title + '”, 30 sec via '));
+    line.appendChild(src);
+    line.hidden = false;
+  }
+  function start(retry) {
+    show('busy');
+    find(function (c) {
+      if (!c || !audio) {
+        show('play');
+        line.textContent = 'No preview right now: try the links below for the full record.';
+        line.hidden = false;
+        return;
+      }
+      if (audio.src !== c.preview) audio.src = c.preview;
+      var p = audio.play();
+      if (p && p.then) p.then(function () { show('pause'); }, function () {
+        if (!retry) { clip = null; audio.removeAttribute('src'); return start(true); } // expired link: look it up again once
+        show('play');
+      });
+      else show('pause');
+    });
+  }
+  function toggle() { if (audio && !audio.paused) audio.pause(); else start(false); }
+
+  if (audio) {
+    audio.preload = 'none';
+    audio.addEventListener('ended', function () { show('play'); });
+    audio.addEventListener('pause', function () { show('play'); });
   }
   play.addEventListener('click', toggle);
   disc.addEventListener('click', toggle);
   love.addEventListener('click', function () {
     love.setAttribute('aria-pressed', love.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
   });
+  // stop the music when another project is opened or this one is closed
+  document.querySelectorAll('ul#titles > li.link').forEach(function (l) {
+    l.addEventListener('click', function () { if (audio && !audio.paused) audio.pause(); });
+  });
+  find(function () { show('play'); }); // look the clip up early so "Press play" can name the song
 })();
