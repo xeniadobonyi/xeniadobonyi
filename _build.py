@@ -31,8 +31,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SITE = 'https://xeniadobonyi.com/'
-CSS = 'style.css?v=20261114h'
-JS = 'main.js?v=20261114g'
+CSS = 'style.css?v=20261114i'
+JS = 'main.js?v=20261114h'
 MONTHS = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split()
 
 BLOG_ASCII = r""" ____   _       ___    ____
@@ -107,8 +107,11 @@ def read_post(path):
             raise SystemExit('%s: "%s:" is missing at the top' % (path.name, k))
     y, mo, d = (int(x) for x in meta['date'].split('-'))
     body = md_blocks(m.group(2))
-    first_p = re.search(r'<p>(.*?)</p>', body, re.S)
-    text = re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', '', first_p.group(1)))).strip() if first_p else ''
+    text = ''
+    for para in re.findall(r'<p>(.*?)</p>', body, re.S):      # first paragraph with words in it
+        text = re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', '', para))).strip()
+        if text:
+            break
     excerpt = text if len(text) <= 230 else text[:230].rsplit(' ', 1)[0].rstrip(',;:') + '…'
     return dict(meta, slug=path.stem, url=path.stem + '.html', body=body, excerpt=excerpt,
                 day=Date(y, mo, d), date_text='%02d %s %d' % (d, MONTHS[mo - 1], y),
@@ -190,14 +193,16 @@ GENERATED = '<!-- Built by _build.py from the files in _blog/. Edit those, not t
 
 
 def index_page(posts):
+    # every post shows straight away: date, title, its picture and opening lines
     rows = []
     for i, p in enumerate(posts):
-        rows.append(f'''			<a class="b-row{' is-active' if i == 0 else ''}" href="{p['url']}" data-img="{e(p['image'])}" data-text="{e(p['excerpt'])}" data-alt="{e(p['title'])}">
+        pic = (f'<span class="b-thumb"><img src="{e(p["image"])}" alt="" '
+               f'{"loading=\"lazy\" " if i > 2 else ""}decoding="async"></span>') if p['image'] else '<span class="b-thumb"></span>'
+        rows.append(f'''			<a class="b-entry" href="{p['url']}">
 				<span class="b-date">{p['date_text']}</span>
-				<span class="b-title">{labelled(p)}</span>
+				<span class="b-main"><span class="b-title">{labelled(p)}</span><span class="b-excerpt">{e(p['excerpt'])}</span></span>
+				{pic}
 			</a>''')
-    first = posts[0]
-    preview_img = f'<img src="{e(first["image"])}" alt="" decoding="async">' if first['image'] else '<img alt="" hidden>'
     return (head('blog // xenia dobonyi (✿◠‿◠)',
                  'Xenia Dobonyi writes about tech, luxury fashion and digital innovation: e-commerce, AI, AR and experience design.',
                  'blog.html', 'og-image.png')
@@ -207,10 +212,6 @@ def index_page(posts):
 {chr(10).join(rows)}
 			<p class="b-feed"><a href="feed.xml">RSS feed</a></p>
 		</section>
-		<aside class="b-preview" aria-hidden="true">
-			{preview_img}
-			<p>{e(first['excerpt'])}</p>
-		</aside>
 	</main>
 ''' + FOOT)
 

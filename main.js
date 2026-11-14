@@ -554,25 +554,3 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 
 	setTimeout(blowIn, FIRST_AFTER);
 })();
-
-/* ---- Blog index: the post under the pointer (or keyboard focus) shows its picture
-   and first lines in the right-hand column, like the projects on the homepage. ---- */
-(function () {
-	var rows = document.querySelectorAll('.b-row');
-	var box = document.querySelector('.b-preview');
-	if (!rows.length || !box) return;
-	var img = box.querySelector('img'), text = box.querySelector('p');
-	function show(row) {
-		rows.forEach(function (r) { r.classList.toggle('is-active', r === row); });
-		var src = row.getAttribute('data-img');
-		if (src) { img.src = src; img.alt = ''; img.hidden = false; } else { img.hidden = true; }
-		text.textContent = row.getAttribute('data-text') || '';
-	}
-	rows.forEach(function (row) {
-		row.addEventListener('pointerenter', function () { show(row); });
-		row.addEventListener('focus', function () { show(row); });
-		// warm the picture so it's there the moment the pointer arrives
-		var src = row.getAttribute('data-img');
-		if (src) { var pre = new Image(); pre.decoding = 'async'; pre.src = src; }
-	});
-})();
