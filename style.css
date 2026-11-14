@@ -825,3 +825,9 @@ button:focus-visible {
 	outline: 2px solid blue;
 	outline-offset: 2px;
 }
+
+/* The <article> blocks in index.html are the source the script builds the page from;
+   hide them while it runs so they never flash (without JavaScript they show as a plain list). */
+.js #projects {
+	display: none;
+}

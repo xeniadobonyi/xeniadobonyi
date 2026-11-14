@@ -1,3 +1,67 @@
+/* ---- Build the page from the <article> blocks in index.html.
+   Each article (id, <h2> title, <div class="text">, <div class="media">) becomes a
+   row in the titles column, a panel in the texts column and a box in the media
+   column: the same three columns the rest of this script and the stylesheet use.
+   The first article opens by default, or the one named in the link (#id). ---- */
+var projectHash = (location.hash || '').slice(1);
+(function buildProjects() {
+	var src = document.getElementById('projects');
+	if (!src) return;
+	var articles = Array.prototype.slice.call(src.querySelectorAll(':scope > article[id]'));
+	var known = articles.some(function (a) { return a.id === projectHash; });
+	var openId = known ? projectHash : (articles[0] && articles[0].id);
+	function el(tag, attrs) {
+		var e = document.createElement(tag);
+		for (var k in attrs) e.setAttribute(k, attrs[k]);
+		return e;
+	}
+	var titles = el('ul', { id: 'titles' });
+	var texts = el('ul', { id: 'texts' });
+	var media = el('ul', { id: 'imagesDesktop', role: 'none' });
+	function moveChildren(from, to) { while (from && from.firstChild) to.appendChild(from.firstChild); }
+
+	articles.forEach(function (art) {
+		var id = art.id, open = id === openId;
+		var h = art.querySelector(':scope > h2');
+		var row = el('li', { id: id, 'class': 'link' + (open ? ' selected' : '') });
+		var a = el('a', { href: '#' + id });
+		a.textContent = h ? h.textContent.trim() : id;
+		row.appendChild(a);
+		titles.appendChild(row);
+
+		var t = art.querySelector(':scope > .text');
+		if (t) {
+			var li = el('li', { id: 'text-' + id, 'class': id, style: 'display: ' + (open ? 'list-item' : 'none') + ';' });
+			moveChildren(t, li);
+			texts.appendChild(li);
+		}
+		var m = art.querySelector(':scope > .media');
+		if (m) {
+			var box = el('ul', { 'class': id, role: 'none', style: 'display: ' + (open ? 'block' : 'none') + ';' });
+			moveChildren(m, box);
+			media.appendChild(box);
+		}
+	});
+	var blog = src.querySelector(':scope > a#blog');
+	if (blog) {
+		var row = el('li', { id: 'blog', 'class': 'link' });
+		blog.removeAttribute('id');
+		row.appendChild(blog);
+		titles.appendChild(row);
+	}
+	src.parentNode.insertBefore(titles, src);
+	src.parentNode.insertBefore(texts, src);
+	src.parentNode.insertBefore(media, src);
+	src.parentNode.removeChild(src);
+})();
+
+/* Keep the address bar on the open project, so any project can be linked to.
+   replaceState: no extra history entries and no page reload. */
+function setProjectHash(id) {
+	if (!window.history || !history.replaceState) return;
+	history.replaceState(null, '', id ? '#' + id : location.pathname + location.search);
+}
+
 /* ---- Project list: each title opens its text and media.
    Titles are links to #id for no-JS fallback; with JS they act as disclosure buttons. ---- */
 function imgShow(imgContainer) {
@@ -33,6 +97,7 @@ function imgShow(imgContainer) {
 				imgs.forEach(function (el) { el.style.display = 'block'; });
 				link.classList.add('selected');
 			}
+			setProjectHash(wasOpen ? '' : itemClass);
 			sync();
 		});
 	});
@@ -81,18 +146,25 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 	var mobile = window.matchMedia('(max-width: 1057px)');
 	var panel = document.createElement('li');
 	panel.className = 'm-panel';
+	// About and Contact are opened from the top bar, so on mobile they open at the
+	// top of the list, right under it, instead of at the bottom of the page.
+	var TOP = ['about', 'contact'];
+	var pages = TOP.map(function (id) { return titles.querySelector(':scope > li#' + id); });
+	var pagesHome = titles.querySelector(':scope > li#blog');
 
 	function undock() {
 		Array.prototype.slice.call(panel.children).forEach(function (node) {
 			(node.tagName === 'LI' ? texts : images).appendChild(node);
 		});
 		if (panel.parentNode) panel.parentNode.removeChild(panel);
+		pages.forEach(function (row) { if (row) titles.insertBefore(row, pagesHome); });
 	}
 	function dock() {
 		undock();
 		if (!mobile.matches) return;
 		var selected = titles.querySelector('li.link.selected');
 		if (!selected) return;
+		if (TOP.indexOf(selected.id) > -1) titles.insertBefore(selected, titles.firstChild);
 		var media = images.querySelector(':scope > ul.' + selected.id);
 		var text = texts.querySelector(':scope > li.' + selected.id);
 		titles.insertBefore(panel, selected.nextSibling);
@@ -120,28 +192,31 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 	if (mobile.addEventListener) mobile.addEventListener('change', onResize);
 	else if (mobile.addListener) mobile.addListener(onResize);
 
-	// top bar: About and Contact open their entry and scroll to it
+	// top bar: About and Contact open (or close) right under the bar; the page doesn't move
 	document.querySelectorAll('.m-bar a[data-open]').forEach(function (a) {
 		a.addEventListener('click', function (e) {
 			var row = titles.querySelector('li#' + a.getAttribute('data-open'));
 			if (!row) return;
 			e.preventDefault();
-			if (!row.classList.contains('selected')) row.click();
-			row.scrollIntoView({ block: 'start' });
+			row.click();
 		});
 	});
 
-	// mobile starts with every project collapsed (desktop keeps deep cuts open)
-	if (mobile.matches) {
-		var open = titles.querySelector('li.link.selected');
-		if (open) open.click();
-	}
-	// mobile starts with every project collapsed; desktop keeps the first one open
-	if (mobile.matches) {
+	// any link to #id on the page (or the back/forward buttons) opens that project
+	window.addEventListener('hashchange', function () {
+		var row = titles.querySelector(':scope > li.link#' + CSS.escape(location.hash.slice(1) || '-'));
+		if (row && !row.classList.contains('selected')) row.click();
+		if (row && mobile.matches) row.scrollIntoView({ block: 'start' });
+	});
+
+	// mobile starts with every project collapsed, unless the link named one (#id)
+	var linked = projectHash && titles.querySelector(':scope > li.link.selected#' + CSS.escape(projectHash));
+	if (mobile.matches && !linked) {
 		var open = titles.querySelector('li.link.selected');
 		if (open) open.click();
 	}
 	dock();
+	if (linked && mobile.matches) linked.scrollIntoView({ block: 'start' });
 })();
 /* ---- Videos: play muted on a loop when their project is open.
    They don't hold up the first paint: once the page has loaded, poster frames are
