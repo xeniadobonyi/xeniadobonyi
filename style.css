@@ -893,3 +893,27 @@ a.logo-link, a.logo-link:hover {
 	will-change: transform;
 	user-select: none;
 }
+
+/* The BLOG logo starts exactly where the name logo starts, on every screen size, so
+   neither jumps when one hands over to the other: the same header padding as the
+   homepage, no extra margin, and a small nudge on desktop because BLOG is set larger
+   (its leading space is wider: 0.6em of 18px vs 13px). */
+.blog-page > nav {
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.blog-page > nav pre {
+	padding-left: 0;
+	margin: 0 0 0 -3px;
+}
+@media all and ( max-width: 1057px ) {
+	.blog-page > nav {
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+	.blog-page > nav pre {
+		margin-left: 0;
+	}
+}
