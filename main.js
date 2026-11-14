@@ -85,6 +85,8 @@ function imgShow(imgContainer) {
 			});
 		}
 		link.addEventListener('click', function () {
+			// Blog is a page link: leave the open project as it is while the page changes
+			if (link.querySelector('a.bloglink')) return;
 			var itemClass = link.id;
 			var txts = document.querySelectorAll(txtBase + '.' + itemClass);
 			var imgs = document.querySelectorAll(imgContainer + '.' + itemClass);
@@ -300,8 +302,10 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 
 /* ---- ASCII logo decode ---- */
 (function () {
-  var el = document.getElementById('xd-logo');
+  // the homepage's name logo, or the BLOG logo on blog pages
+  var el = document.getElementById('xd-logo') || document.querySelector('.blog-page nav pre');
   if (!el) return;
+  var isBlog = el.id !== 'xd-logo';
 
   var POOL = 'xeniadobony'.split('');     // flickers through the letters of your name
   var CYCLE_MS = 60;                       // ms per flicker frame (raise → letters more legible)
@@ -341,7 +345,14 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 
   el.addEventListener('mouseenter', decode);  // replay on hover
   // a click or tap on the logo goes home: it's a link to / (index.html), which reloads the page
-  decode();                                    // run once on load (logo is above the fold)
+  // on load: the homepage always decodes; the BLOG logo decodes only when you arrive
+  // from the portfolio, so the name visibly turns into BLOG (not on every post)
+  var fromHome = false;
+  try {
+    var ref = document.referrer && new URL(document.referrer);
+    fromHome = !!ref && ref.host === location.host && /^\/(index\.html)?$/.test(ref.pathname);
+  } catch (e) {}
+  if (!isBlog || fromHome) decode();
 })();
 
 /* ---- deep cuts player: tap play for a 30-second preview of the record ----

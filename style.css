@@ -112,6 +112,7 @@ pre {
 	padding-left: 20px;
 }
 #xd-logo .xd-flick { color: blue; }
+.blog-page nav pre .xd-flick { color: #b35c00; }
 ul > li {
 	list-style: none;
 }
@@ -847,8 +848,27 @@ a.logo-link, a.logo-link:hover {
 }
 ::view-transition-old(root),
 ::view-transition-new(root) {
-	animation-duration: 240ms;
+	animation-duration: 450ms;
 	animation-timing-function: ease;
+}
+/* The logos hand over: going to the blog, the name logo fades out while BLOG fades in
+   in its place (and flickers through the letters of the name); coming back, the reverse.
+   Each keeps its own size and stays pinned top-left, so the ASCII never stretches. */
+#xd-logo,
+.blog-page nav pre {
+	view-transition-name: site-logo;
+}
+::view-transition-group(site-logo) {
+	animation-duration: 450ms;
+	animation-timing-function: ease;
+}
+::view-transition-old(site-logo),
+::view-transition-new(site-logo) {
+	animation-duration: 450ms;
+	inline-size: auto;
+	block-size: auto;
+	object-fit: none;
+	object-position: left top;
 }
 @media (prefers-reduced-motion: reduce) {
 	@view-transition {
