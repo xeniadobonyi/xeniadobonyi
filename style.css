@@ -533,7 +533,7 @@ p.photo-description {
 		width: 400px;
 	}
 	#wrap > ul {
-		height: calc( 100vh - 51px );
+		height: calc( 100vh - var(--head, 51px) );
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		display: inline-block;
@@ -840,42 +840,8 @@ a.logo-link, a.logo-link:hover {
 	text-decoration: none;
 }
 
-/* Page transitions: moving between the portfolio and the blog (or between posts)
-   crossfades instead of flashing blank. Browsers without support just load normally;
-   with reduced motion there is no animation. */
-@view-transition {
-	navigation: auto;
-}
-::view-transition-old(root),
-::view-transition-new(root) {
-	animation-duration: 450ms;
-	animation-timing-function: ease;
-}
-/* The logos hand over: going to the blog, the name logo fades out while BLOG fades in
-   in its place (and flickers through the letters of the name); coming back, the reverse.
-   Each keeps its own size and stays pinned top-left, so the ASCII never stretches. */
-#xd-logo,
-.blog-page nav pre,
-.blog-logo {
-	view-transition-name: site-logo;
-}
-::view-transition-group(site-logo) {
-	animation-duration: 450ms;
-	animation-timing-function: ease;
-}
-::view-transition-old(site-logo),
-::view-transition-new(site-logo) {
-	animation-duration: 450ms;
-	inline-size: auto;
-	block-size: auto;
-	object-fit: none;
-	object-position: left top;
-}
-@media (prefers-reduced-motion: reduce) {
-	@view-transition {
-		navigation: none;
-	}
-}
+/* Moving between the portfolio and the blog is an instant page change: no fade.
+   The BLOG logo still starts exactly where the name logo does, so nothing shifts. */
 
 /* Homepage: the flying ✿ flowers (made by main.js): black, one size. Above everything, never in the way. */
 .sky {
@@ -1295,3 +1261,19 @@ body.blog-v2,
 	.l-more span { display: block; }
 	.blog-v2 .l-more p + p { margin-top: 14px; }
 }
+
+/* ---- homepage header links (desktop), same row as on the blog ---- */
+.site-links {
+	display: flex;
+	gap: 18px;
+	margin: 0 0 4px 2px;
+	line-height: 24px;
+}
+nav .site-links a { font-size: 12px; }
+nav .site-links a[aria-current] { color: black; }
+.m-bar a[aria-current] { color: black; }
+@media all and ( max-width: 1057px ) {
+	.site-links { display: none; }
+}
+/* About / Contact open: the project list (the work) steps aside */
+body.is-page ul#titles > li.link:not(.selected) { display: none; }

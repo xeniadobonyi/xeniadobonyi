@@ -129,6 +129,37 @@ function snapTextToRows() {
 }
 
 imgShow('ul#imagesDesktop > ul');
+
+/* ---- About and Contact are pages of their own: while one is open the project
+   list (the work) is hidden, and the header's Work link brings it back with the
+   last project you had open. The header links show where you are. ---- */
+var lastProject = null;
+function updatePageMode() {
+	var sel = document.querySelector('ul#titles > li.link.selected');
+	var page = sel && (sel.id === 'about' || sel.id === 'contact') ? sel.id : '';
+	document.body.classList.toggle('is-page', !!page);
+	document.querySelectorAll('a[data-open]').forEach(function (a) {
+		var t = a.getAttribute('data-open');
+		if ((page && t === page) || (!page && t === 'work')) a.setAttribute('aria-current', 'page');
+		else a.removeAttribute('aria-current');
+	});
+	if (sel && !page) lastProject = sel.id;
+}
+document.querySelectorAll('ul#titles > li.link').forEach(function (link) {
+	link.addEventListener('click', updatePageMode);
+});
+updatePageMode();
+
+/* the homepage header's height decides how tall the columns are on desktop */
+function setHeaderHeight() {
+	var nav = document.querySelector('body > nav');
+	if (nav) document.documentElement.style.setProperty('--head', (nav.offsetHeight + 1) + 'px');
+}
+setHeaderHeight();
+window.addEventListener('resize', setHeaderHeight);
+window.addEventListener('load', setHeaderHeight);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(setHeaderHeight);
+
 snapTextToRows();
 document.querySelectorAll('.link').forEach(function (link) {
 	link.addEventListener('click', snapTextToRows);
@@ -194,12 +225,29 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 	if (mobile.addEventListener) mobile.addEventListener('change', onResize);
 	else if (mobile.addListener) mobile.addListener(onResize);
 
-	// top bar: About and Contact open (or close) right under the bar; the page doesn't move
-	document.querySelectorAll('.m-bar a[data-open]').forEach(function (a) {
+	// header links (the desktop row and the mobile top bar): About and Contact open
+	// as their own page; Work goes back to the projects. The page doesn't reload.
+	document.querySelectorAll('a[data-open]').forEach(function (a) {
 		a.addEventListener('click', function (e) {
-			var row = titles.querySelector('li#' + a.getAttribute('data-open'));
-			if (!row) return;
+			var target = a.getAttribute('data-open');
 			e.preventDefault();
+			var open = titles.querySelector(':scope > li.link.selected');
+			if (target === 'work') {
+				var onPage = open && TOP.indexOf(open.id) > -1;
+				if (mobile.matches) {
+					if (onPage) open.click();            // close About/Contact: the list is back
+					window.scrollTo(0, 0);
+				} else if (onPage || !open) {
+					var first = titles.querySelector(':scope > li.link:not(#about):not(#contact):not(#blog)');
+					var back = (lastProject && titles.querySelector(':scope > li.link#' + CSS.escape(lastProject))) || first;
+					if (back) back.click();
+				}
+				return;
+			}
+			var row = titles.querySelector('li#' + target);
+			if (!row) return;
+			// on desktop a page that's already open stays open; on mobile a second tap closes it
+			if (row.classList.contains('selected') && !mobile.matches) return;
 			row.click();
 		});
 	});
@@ -354,14 +402,8 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 
   el.addEventListener('mouseenter', decode);  // replay on hover
   // a click or tap on the logo goes home: it's a link to / (index.html), which reloads the page
-  // on load: the homepage always decodes; the BLOG logo decodes only when you arrive
-  // from the portfolio, so the name visibly turns into BLOG (not on every post)
-  var fromHome = false;
-  try {
-    var ref = document.referrer && new URL(document.referrer);
-    fromHome = !!ref && ref.host === location.host && /^\/(index\.html)?$/.test(ref.pathname);
-  } catch (e) {}
-  if (!isBlog || fromHome) decode();
+  // on load the homepage's name logo decodes; the BLOG logo stays still (pages switch statically)
+  if (!isBlog) decode();
 })();
 
 /* ---- deep cuts player: tap play for a 30-second preview of the record ----

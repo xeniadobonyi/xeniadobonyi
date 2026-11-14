@@ -31,8 +31,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SITE = 'https://xeniadobonyi.com/'
-CSS = 'style.css?v=20261114j'
-JS = 'main.js?v=20261114h'
+CSS = 'style.css?v=20261114k'
+JS = 'main.js?v=20261114i'
 MONTHS = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split()
 
 BLOG_ASCII = r""" ____   _       ___    ____
