@@ -876,7 +876,7 @@ a.logo-link, a.logo-link:hover {
 	}
 }
 
-/* Homepage: the flying ✿ flowers (made by main.js). Above everything, never in the way. */
+/* Homepage: the flying ✿ flowers (made by main.js): black, one size. Above everything, never in the way. */
 .sky {
 	position: fixed;
 	inset: 0;
@@ -889,6 +889,7 @@ a.logo-link, a.logo-link:hover {
 	top: 0;
 	left: 0;
 	line-height: 1;
+	color: black;
 	will-change: transform;
 	user-select: none;
 }

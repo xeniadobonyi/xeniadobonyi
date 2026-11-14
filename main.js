@@ -471,15 +471,20 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
   find(function () { show('play'); }); // look the clip up early so "Press play" can name the song
 })();
 
-/* ---- Homepage: a few ✿ flowers fly around the page at random, web 1.0 style.
-   2 to 5 of them, each with its own size, speed, colour and spin; they wander,
-   turn on a whim and bounce off the edges of the window. They never block a click,
-   stop while the tab is hidden, and stay away with reduced motion. ---- */
+/* ---- Homepage: ✿ flowers blow in from the sides and fly around, web 1.0 style.
+   After 5 seconds, 2 to 5 of them arrive one by one, each from the left or right edge.
+   All black, all one size, all at the same speed; they wander, turn on a whim and
+   bounce off the edges of the window. They never block a click, stop while the tab
+   is hidden, and stay away with reduced motion. ---- */
 (function () {
 	if (!document.getElementById('xd-logo')) return; // homepage only
 	if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-	var COLOURS = ['#0000ff', '#ff2d95'];   // the site's link blue and the deep cuts pink
+	var SIZE = 22;            // px, every flower
+	var SPEED = 80;           // px per second, every flower
+	var SPIN = 90;            // degrees per second, clockwise or anticlockwise
+	var FIRST_AFTER = 5000;   // ms before the first flower blows in
 	var count = 2 + Math.floor(Math.random() * 4);
+
 	var layer = document.createElement('div');
 	layer.className = 'sky';
 	layer.setAttribute('aria-hidden', 'true');
@@ -489,47 +494,54 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 	var W = window.innerWidth, H = window.innerHeight;
 	window.addEventListener('resize', function () { W = window.innerWidth; H = window.innerHeight; });
 
-	var flowers = [];
-	for (var i = 0; i < count; i++) {
+	var flowers = [], running = false, last = null;
+
+	function blowIn() {
+		var fromLeft = Math.random() < 0.5;
 		var el = document.createElement('span');
 		el.className = 'sky-flower';
-		el.textContent = '✿';
-		var size = Math.round(rnd(16, 34));
-		el.style.fontSize = size + 'px';
-		el.style.color = COLOURS[i % COLOURS.length];
+		el.textContent = '\u273F';
+		el.style.fontSize = SIZE + 'px';
 		layer.appendChild(el);
 		flowers.push({
-			el: el, size: size,
-			x: rnd(0, W - size), y: rnd(0, H - size),
-			heading: rnd(0, Math.PI * 2),      // direction of travel
-			speed: rnd(40, 120),               // px per second
-			turn: 0,                            // current turning rate
-			spin: rnd(-120, 120), angle: rnd(0, 360)
+			el: el,
+			x: fromLeft ? -SIZE - 4 : W + 4,                    // just outside the window
+			y: rnd(H * 0.1, H * 0.8),
+			heading: (fromLeft ? 0 : Math.PI) + rnd(-0.5, 0.5), // heading inwards, a little up or down
+			turn: 0,
+			entering: true,                                     // no edge bounce until fully inside
+			spin: Math.random() < 0.5 ? -SPIN : SPIN, angle: rnd(0, 360)
 		});
+		if (!running) { running = true; requestAnimationFrame(frame); }
+		if (flowers.length < count) setTimeout(blowIn, rnd(1200, 2800));
 	}
 
-	var last = null;
 	function frame(t) {
 		if (last === null) last = t;
 		var dt = Math.min(0.05, (t - last) / 1000); last = t;
 		flowers.forEach(function (f) {
 			// wander: the turning rate drifts, and now and then the flower changes its mind
-			f.turn += rnd(-6, 6) * dt;
-			f.turn = Math.max(-2.5, Math.min(2.5, f.turn));
-			if (Math.random() < 0.004) f.heading += rnd(-2, 2);
-			if (Math.random() < 0.003) f.speed = rnd(40, 140);
-			f.heading += f.turn * dt;
-			f.x += Math.cos(f.heading) * f.speed * dt;
-			f.y += Math.sin(f.heading) * f.speed * dt;
+			if (!f.entering) {
+				f.turn += rnd(-6, 6) * dt;
+				f.turn = Math.max(-2.5, Math.min(2.5, f.turn));
+				if (Math.random() < 0.004) f.heading += rnd(-2, 2);
+				f.heading += f.turn * dt;
+			}
+			f.x += Math.cos(f.heading) * SPEED * dt;
+			f.y += Math.sin(f.heading) * SPEED * dt;
+			if (f.entering && f.x >= 0 && f.x <= W - SIZE) f.entering = false;
 			// bounce off the window edges
-			if (f.x < 0) { f.x = 0; f.heading = Math.PI - f.heading; }
-			if (f.x > W - f.size) { f.x = W - f.size; f.heading = Math.PI - f.heading; }
+			if (!f.entering) {
+				if (f.x < 0) { f.x = 0; f.heading = Math.PI - f.heading; }
+				if (f.x > W - SIZE) { f.x = W - SIZE; f.heading = Math.PI - f.heading; }
+			}
 			if (f.y < 0) { f.y = 0; f.heading = -f.heading; }
-			if (f.y > H - f.size) { f.y = H - f.size; f.heading = -f.heading; }
+			if (f.y > H - SIZE) { f.y = H - SIZE; f.heading = -f.heading; }
 			f.angle += f.spin * dt;
 			f.el.style.transform = 'translate(' + f.x.toFixed(1) + 'px,' + f.y.toFixed(1) + 'px) rotate(' + f.angle.toFixed(1) + 'deg)';
 		});
-		requestAnimationFrame(frame);
+		requestAnimationFrame(frame); // requestAnimationFrame already pauses in a hidden tab
 	}
-	requestAnimationFrame(frame); // requestAnimationFrame already pauses in a hidden tab
+
+	setTimeout(blowIn, FIRST_AFTER);
 })();
