@@ -31,7 +31,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SITE = 'https://xeniadobonyi.com/'
-CSS = 'style.css?v=20261114i'
+CSS = 'style.css?v=20261114j'
 JS = 'main.js?v=20261114h'
 MONTHS = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split()
 
@@ -217,21 +217,17 @@ def index_page(posts):
 
 
 def post_page(posts, i):
+    # "Quiet letter": a small bold title, one narrow column on the homepage's 400px line,
+    # pictures without frames, next/previous as plain links at the end.
     p = posts[i]
     newer = posts[i - 1] if i > 0 else None
     older = posts[i + 1] if i + 1 < len(posts) else None
-    side = '\n'.join(
-        f'''			<a class="b-side-row" href="{q['url']}"{' aria-current="page"' if q is p else ''}>[{q['day'].year}] {e(q['short'])}</a>'''
-        for q in posts)
-    pager = []
-    if older:
-        pager.append(f'<a class="b-older" href="{older["url"]}"><span>&larr; Older</span>{e(older["title"])}</a>')
-    else:
-        pager.append('<span class="b-older b-none"></span>')
+    more = []
     if newer:
-        pager.append(f'<a class="b-newer" href="{newer["url"]}"><span>Newer &rarr;</span>{e(newer["title"])}</a>')
-    else:
-        pager.append('<span class="b-newer b-none"></span>')
+        more.append(f'<p><span>Next</span> <a href="{newer["url"]}">{e(newer["title"])}</a></p>')
+    if older:
+        more.append(f'<p><span>Previous</span> <a href="{older["url"]}">{e(older["title"])}</a></p>')
+    label = f'<span class="l-label">{e(p["label"].capitalize())}</span>' if p['label'] else ''
     ld = {
         '@context': 'https://schema.org', '@type': 'BlogPosting',
         'headline': p['title'], 'datePublished': p['day'].isoformat(), 'description': p['description'],
@@ -244,20 +240,18 @@ def post_page(posts, i):
     extra = '<script type="application/ld+json">\n%s\n</script>\n' % json.dumps(ld, ensure_ascii=False, indent=2)
     return (head(p['title'] + ' // xenia dobonyi', p['description'], p['url'], p['image'], 'article', extra)
             + GENERATED + header() + f'''
-	<main class="b-post">
-		<nav class="b-side" aria-label="Blog posts">
-			<a class="b-back" href="blog.html">&larr; All posts</a>
-{side}
-		</nav>
-		<article class="b-article">
-			<div class="b-column">
-				<p class="b-meta"><time datetime="{p['day'].isoformat()}">{p['date_text']}</time>{(' &middot; ' + e(p['label'])) if p['label'] else ''}</p>
-				<h1 class="b-h1">{e(p['title'])}</h1>
-				<div class="b-body">
+	<main class="l-post">
+		<aside class="l-aside">
+			<a class="l-back" href="blog.html">&larr; All posts</a>
+			<time class="l-date" datetime="{p['day'].isoformat()}">{p['date_text']}</time>{label}
+		</aside>
+		<article class="l-article">
+			<h1 class="l-title">{e(p['title'])}</h1>
+			<div class="l-body">
 {p['body']}
-				</div>
 			</div>
-			<nav class="b-pager" aria-label="More posts">{''.join(pager)}</nav>
+			<p class="l-end" aria-hidden="true">&#10047;</p>
+			<div class="l-more" role="navigation" aria-label="More posts">{''.join(more)}</div>
 		</article>
 	</main>
 ''' + FOOT)
