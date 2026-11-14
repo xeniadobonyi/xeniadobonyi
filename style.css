@@ -875,3 +875,20 @@ a.logo-link, a.logo-link:hover {
 		navigation: none;
 	}
 }
+
+/* Homepage: the flying ✿ flowers (made by main.js). Above everything, never in the way. */
+.sky {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	overflow: hidden;
+	z-index: 9999;
+}
+.sky-flower {
+	position: absolute;
+	top: 0;
+	left: 0;
+	line-height: 1;
+	will-change: transform;
+	user-select: none;
+}

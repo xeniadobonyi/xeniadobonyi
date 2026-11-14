@@ -470,3 +470,66 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
   });
   find(function () { show('play'); }); // look the clip up early so "Press play" can name the song
 })();
+
+/* ---- Homepage: a few ✿ flowers fly around the page at random, web 1.0 style.
+   2 to 5 of them, each with its own size, speed, colour and spin; they wander,
+   turn on a whim and bounce off the edges of the window. They never block a click,
+   stop while the tab is hidden, and stay away with reduced motion. ---- */
+(function () {
+	if (!document.getElementById('xd-logo')) return; // homepage only
+	if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+	var COLOURS = ['#0000ff', '#ff2d95'];   // the site's link blue and the deep cuts pink
+	var count = 2 + Math.floor(Math.random() * 4);
+	var layer = document.createElement('div');
+	layer.className = 'sky';
+	layer.setAttribute('aria-hidden', 'true');
+	document.body.appendChild(layer);
+
+	function rnd(a, b) { return a + Math.random() * (b - a); }
+	var W = window.innerWidth, H = window.innerHeight;
+	window.addEventListener('resize', function () { W = window.innerWidth; H = window.innerHeight; });
+
+	var flowers = [];
+	for (var i = 0; i < count; i++) {
+		var el = document.createElement('span');
+		el.className = 'sky-flower';
+		el.textContent = '✿';
+		var size = Math.round(rnd(16, 34));
+		el.style.fontSize = size + 'px';
+		el.style.color = COLOURS[i % COLOURS.length];
+		layer.appendChild(el);
+		flowers.push({
+			el: el, size: size,
+			x: rnd(0, W - size), y: rnd(0, H - size),
+			heading: rnd(0, Math.PI * 2),      // direction of travel
+			speed: rnd(40, 120),               // px per second
+			turn: 0,                            // current turning rate
+			spin: rnd(-120, 120), angle: rnd(0, 360)
+		});
+	}
+
+	var last = null;
+	function frame(t) {
+		if (last === null) last = t;
+		var dt = Math.min(0.05, (t - last) / 1000); last = t;
+		flowers.forEach(function (f) {
+			// wander: the turning rate drifts, and now and then the flower changes its mind
+			f.turn += rnd(-6, 6) * dt;
+			f.turn = Math.max(-2.5, Math.min(2.5, f.turn));
+			if (Math.random() < 0.004) f.heading += rnd(-2, 2);
+			if (Math.random() < 0.003) f.speed = rnd(40, 140);
+			f.heading += f.turn * dt;
+			f.x += Math.cos(f.heading) * f.speed * dt;
+			f.y += Math.sin(f.heading) * f.speed * dt;
+			// bounce off the window edges
+			if (f.x < 0) { f.x = 0; f.heading = Math.PI - f.heading; }
+			if (f.x > W - f.size) { f.x = W - f.size; f.heading = Math.PI - f.heading; }
+			if (f.y < 0) { f.y = 0; f.heading = -f.heading; }
+			if (f.y > H - f.size) { f.y = H - f.size; f.heading = -f.heading; }
+			f.angle += f.spin * dt;
+			f.el.style.transform = 'translate(' + f.x.toFixed(1) + 'px,' + f.y.toFixed(1) + 'px) rotate(' + f.angle.toFixed(1) + 'deg)';
+		});
+		requestAnimationFrame(frame);
+	}
+	requestAnimationFrame(frame); // requestAnimationFrame already pauses in a hidden tab
+})();
