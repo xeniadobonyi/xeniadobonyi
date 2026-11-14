@@ -1,0 +1,37 @@
+# When a post in _blog/ (or the build script) changes, rebuild the blog pages
+# and commit them, so GitHub Pages publishes the new version.
+name: Build blog
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "_blog/**"
+      - "_build.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-blog
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the blog
+        run: python3 _build.py
+      - name: Commit the built pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Pages already up to date"
+          else
+            git commit -m "Rebuild blog from _blog/"
+            git push
+          fi

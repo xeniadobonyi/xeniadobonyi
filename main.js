@@ -218,7 +218,16 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 		if (open) open.click();
 	}
 	dock();
-	if (linked && mobile.matches) linked.scrollIntoView({ block: 'start' });
+	// arriving on a link: a project on mobile scrolls into view; About and Contact (and
+	// everything on desktop) stay at the top with the header showing. The browser's own
+	// jump to #id comes after load, so settle again then.
+	function settle() {
+		if (!linked) return;
+		if (mobile.matches && TOP.indexOf(linked.id) < 0) linked.scrollIntoView({ block: 'start' });
+		else window.scrollTo(0, 0);
+	}
+	settle();
+	window.addEventListener('load', function () { setTimeout(settle, 0); });
 })();
 /* ---- Videos: play muted on a loop when their project is open.
    They don't hold up the first paint: once the page has loaded, poster frames are
@@ -303,7 +312,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 /* ---- ASCII logo decode ---- */
 (function () {
   // the homepage's name logo, or the BLOG logo on blog pages
-  var el = document.getElementById('xd-logo') || document.querySelector('.blog-page nav pre');
+  var el = document.getElementById('xd-logo') || document.querySelector('.blog-logo, .blog-page nav pre');
   if (!el) return;
   var isBlog = el.id !== 'xd-logo';
 
@@ -544,4 +553,26 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 	}
 
 	setTimeout(blowIn, FIRST_AFTER);
+})();
+
+/* ---- Blog index: the post under the pointer (or keyboard focus) shows its picture
+   and first lines in the right-hand column, like the projects on the homepage. ---- */
+(function () {
+	var rows = document.querySelectorAll('.b-row');
+	var box = document.querySelector('.b-preview');
+	if (!rows.length || !box) return;
+	var img = box.querySelector('img'), text = box.querySelector('p');
+	function show(row) {
+		rows.forEach(function (r) { r.classList.toggle('is-active', r === row); });
+		var src = row.getAttribute('data-img');
+		if (src) { img.src = src; img.alt = ''; img.hidden = false; } else { img.hidden = true; }
+		text.textContent = row.getAttribute('data-text') || '';
+	}
+	rows.forEach(function (row) {
+		row.addEventListener('pointerenter', function () { show(row); });
+		row.addEventListener('focus', function () { show(row); });
+		// warm the picture so it's there the moment the pointer arrives
+		var src = row.getAttribute('data-img');
+		if (src) { var pre = new Image(); pre.decoding = 'async'; pre.src = src; }
+	});
 })();

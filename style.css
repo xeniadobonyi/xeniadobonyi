@@ -855,7 +855,8 @@ a.logo-link, a.logo-link:hover {
    in its place (and flickers through the letters of the name); coming back, the reverse.
    Each keeps its own size and stays pinned top-left, so the ASCII never stretches. */
 #xd-logo,
-.blog-page nav pre {
+.blog-page nav pre,
+.blog-logo {
 	view-transition-name: site-logo;
 }
 ::view-transition-group(site-logo) {
@@ -917,3 +918,259 @@ a.logo-link, a.logo-link:hover {
 		margin-left: 0;
 	}
 }
+
+/* ==================================================================================
+   BLOG (blog.html and every post; pages built by _build.py from _blog/*.md)
+   Same header as the homepage with BLOG in the logo spot; warm paper; hairline rows.
+   ================================================================================== */
+body.blog-v2,
+.blog-v2 nav {
+	background-color: #FFFAF0;
+}
+.blog-v2 { color: #000000; }
+.blog-v2 a { color: blue; }
+.blog-v2 a:hover { color: black; }
+
+/* header: BLOG sits exactly where the name logo sits on the homepage */
+.blog-v2 nav pre.blog-logo {
+	font-size: 18px;
+	line-height: normal;
+	padding-left: 0;
+	margin: 0 0 0 -3px;
+	color: black;
+}
+.blog-logo .xd-flick { color: blue; }
+.blog-v2 nav h2.description { line-height: 30px; }
+.blog-v2 .b-links {
+	display: flex;
+	gap: 18px;
+	margin: 0 0 4px 2px;
+	line-height: 24px;
+	font-size: 12px;
+}
+.blog-v2 .b-links a { font-size: 12px; text-decoration: none; }
+.blog-v2 .b-links a[aria-current] { color: black; }
+.blog-v2 .m-bar a[aria-current] { color: black; }
+
+/* ---- index: ruled list of posts, preview of the post under the pointer ---- */
+.b-row {
+	display: flex;
+	align-items: baseline;
+	box-sizing: border-box;
+	min-height: 40px;
+	padding: 9px 22px;
+	border-bottom: 1px solid black;
+	color: black !important;
+	text-decoration: none;
+	font-size: 17px;
+	line-height: 1.3;
+}
+.b-date {
+	width: 128px;
+	flex-shrink: 0;
+	color: #5c5c5c;
+	font-size: 15px;
+	font-variant-numeric: tabular-nums;
+}
+.b-title b, .b-title strong {
+	font-family: "Helvetica Now Bold", "Helvetica Neue", Helvetica, sans-serif;
+	font-weight: normal;
+}
+.blog-v2 .b-feed { margin: 0; padding: 12px 22px; font-size: 12px; }
+.blog-v2 .b-feed a { font-size: 12px; text-decoration: none; }
+
+/* ---- post ---- */
+.b-meta {
+	margin: 0;
+	font-size: 12px !important;
+	line-height: 18px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #5c5c5c !important;
+}
+.b-h1 {
+	margin: 12px 0 28px 0;
+	font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 40px;
+	line-height: 1.1;
+	letter-spacing: -0.01em;
+}
+.b-body { font-size: 17px; line-height: 1.6; }
+.b-body p,
+.b-body li { font-size: 17px; line-height: 1.6; color: black; }
+.b-body p { margin: 0 0 1.1em 0; }
+.b-body a { font-size: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.b-body h2 {
+	margin: 1.8em 0 0.6em 0;
+	font-size: 22px;
+	font-weight: normal;
+	line-height: 1.25;
+}
+.b-body ul { margin: 0 0 1.1em 0; padding-left: 1.2em; }
+.b-body ul > li { list-style: disc; margin: 0.3em 0; }
+.b-body blockquote { margin: 1.6em 0; padding: 0; }
+.b-body blockquote p { font-size: 22px; line-height: 1.35; }
+.b-body img,
+.b-body video {
+	display: block;
+	width: 100%;
+	height: auto;
+	margin: 1.5em 0;
+	border: 1px solid black;
+	box-sizing: border-box;
+}
+.b-body img.mobile-screen,
+.b-body img.screen,
+.b-body img.portrait,
+.b-body video.portrait { max-width: 360px; }
+.b-body .videoWrapper { position: relative; width: 100%; aspect-ratio: 16 / 9; margin: 1.5em 0; }
+.b-body .videoWrapper iframe {
+	position: absolute; inset: 0;
+	width: 100%; height: 100%;
+	border: 1px solid black; box-sizing: border-box;
+}
+.b-body > iframe { display: block; width: 100%; margin: 1.5em 0; border: 1px solid black !important; }
+.b-body .caption { margin: -0.8em 0 1.6em 0; font-size: 13px; line-height: 1.5; color: #5c5c5c; }
+.b-pager {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	border-top: 1px solid black;
+}
+.b-pager a {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	padding: 14px 48px;
+	color: black !important;
+	text-decoration: none;
+	font-size: 17px;
+	line-height: 1.35;
+}
+.b-pager a span {
+	font-size: 12px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #5c5c5c;
+}
+.b-older { border-right: 1px solid black; }
+.b-newer { text-align: right; align-items: flex-end; }
+
+/* ---- desktop and iPad landscape ---- */
+@media all and ( min-width: 1058px ) {
+	.blog-v2 .m-bar { display: none; }
+	.b-index {
+		display: grid;
+		grid-template-columns: 800px minmax(0, 1fr);
+	}
+	.b-list { border-right: 1px solid black; }
+	.b-row:hover,
+	.b-row:focus-visible,
+	.b-row.is-active {
+		padding-left: 37px;
+		background: #FFF6D6;
+		outline: none;
+	}
+	.b-preview { padding: 40px; }
+	.b-preview img {
+		display: block;
+		width: 100%;
+		max-width: 560px;
+		height: auto;
+		border: 1px solid black;
+		box-sizing: border-box;
+	}
+	.blog-v2 .b-preview p { max-width: 560px; margin: 14px 0 0 0; font-size: 15px; line-height: 1.5; color: black; }
+
+	.b-post {
+		display: grid;
+		grid-template-columns: 400px minmax(0, 1fr);
+	}
+	.b-side { border-right: 1px solid black; }
+	.b-back,
+	.b-side-row {
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
+		height: 40px;
+		padding: 0 22px;
+		border-bottom: 1px solid black;
+		font-size: 15px !important;
+		text-decoration: none;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.blog-v2 .b-side-row { color: black; }
+	.b-side-row[aria-current] { padding-left: 37px; }
+	.b-article { padding: 40px 0 0 0; min-width: 0; }
+	.b-column { max-width: 680px; padding: 0 48px; }
+	.b-pager { margin-top: 56px; }
+}
+@media all and ( min-width: 1058px ) and ( max-width: 1279px ) {
+	.b-index { grid-template-columns: 62% minmax(0, 1fr); }
+	.b-preview { padding: 32px; }
+	.b-post { grid-template-columns: 340px minmax(0, 1fr); }
+	.b-column { padding: 0 40px; }
+	.b-pager a { padding: 14px 40px; }
+}
+
+/* ---- iPad portrait and phones ---- */
+@media all and ( max-width: 1057px ) {
+	.blog-v2 nav pre.blog-logo { font-size: 10px; margin-left: 0; }
+	.blog-v2 .b-links { display: none; }
+	.b-preview { display: none; }
+	.b-list,
+	.b-side { border-top: 1px solid black; }
+	.b-row { padding: 14px 16px; font-size: 17px !important; }
+	.b-side-row { display: none; }
+	.b-back {
+		display: flex;
+		align-items: center;
+		min-height: 44px;
+		padding: 0 16px;
+		border-bottom: 1px solid black;
+		font-size: 15px !important;
+		text-decoration: none;
+	}
+	.b-article { padding: 28px 16px 0 16px; }
+	.b-column { max-width: 660px; margin: 0 auto; }
+	.b-h1 { font-size: 30px; }
+	.b-pager { margin: 40px -16px 0 -16px; }
+	.b-pager a { padding: 14px 16px; font-size: 16px !important; }
+	.blog-v2 .b-feed { padding: 12px 16px; }
+}
+@media all and ( min-width: 600px ) and ( max-width: 1057px ) {
+	.b-row { padding: 14px 24px; }
+	.b-date { width: 124px; font-size: 14px; }
+	.b-back { padding: 0 24px; }
+	.b-article { padding: 40px 24px 0 24px; }
+	.b-h1 { font-size: 36px; }
+	.b-pager { margin: 48px -24px 0 -24px; }
+	.b-pager a { padding: 16px 24px; }
+}
+@media all and ( max-width: 599px ) {
+	.b-row { flex-direction: column; gap: 3px; }
+	.b-date { width: auto; font-size: 12px; }
+	.b-pager { grid-template-columns: 1fr; }
+	.b-older { border-right: 0; border-bottom: 1px solid black; }
+	.b-newer { text-align: left; align-items: flex-start; }
+	.b-none { display: none; }
+}
+/* the side list and the older/newer links are <nav>s: they don't take the site header's styles */
+.blog-v2 nav.b-side,
+.blog-v2 nav.b-pager {
+	width: auto;
+	margin: 0;
+	padding: 0;
+	line-height: normal;
+	border-bottom: 0;
+	background: none;
+}
+.b-row:hover, .b-row:hover span,
+.b-side-row:hover, .b-back:hover, .b-pager a:hover { text-decoration: none; }
+@media all and ( min-width: 1058px ) { .blog-v2 nav.b-pager { margin-top: 56px; border-top: 1px solid black; } }
+@media all and ( max-width: 1057px ) { .blog-v2 nav.b-pager { margin: 40px -16px 0 -16px; border-top: 1px solid black; } .blog-v2 nav.b-side { border-top: 1px solid black; } }
+@media all and ( min-width: 600px ) and ( max-width: 1057px ) { .blog-v2 nav.b-pager { margin: 48px -24px 0 -24px; } }
+/* the homepage's desktop media rule floats images; the blog's never float */
+.blog-v2 img, .blog-v2 video { float: none; cursor: auto; }
