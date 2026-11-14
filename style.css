@@ -831,3 +831,10 @@ button:focus-visible {
 .js #projects {
 	display: none;
 }
+
+/* The logo links home: a click reloads the homepage. It keeps the logo's own colours. */
+a.logo-link, a.logo-link:hover {
+	display: inline-block;
+	color: black;
+	text-decoration: none;
+}

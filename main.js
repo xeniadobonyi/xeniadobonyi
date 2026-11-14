@@ -340,7 +340,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
   }
 
   el.addEventListener('mouseenter', decode);  // replay on hover
-  el.addEventListener('click', decode);       // replay on tap (touch devices)
+  // a click or tap on the logo goes home: it's a link to / (index.html), which reloads the page
   decode();                                    // run once on load (logo is above the fold)
 })();
 
