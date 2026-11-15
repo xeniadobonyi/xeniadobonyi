@@ -992,8 +992,13 @@ body.blog-v2,
 	font-size: 18px;
 	line-height: 1.25;
 }
-.bl-row:hover .bl-title,
 .bl-more a:hover b { text-decoration: underline; text-underline-offset: 3px; }
+/* hovering a post in the list: no underline, the row's background changes */
+.bl-row:hover,
+.bl-row:hover span { text-decoration: none !important; }
+@media (hover: hover) {
+	.bl-row:hover { background: rgba(0, 0, 0, 0.06) !important; }
+}
 
 /* the post's own text: easy reading, about 65 characters a line */
 .l-body p,
