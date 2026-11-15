@@ -968,7 +968,7 @@ body.blog-v2,
 .blog-v2 .bl-post-date { margin: 0 0 12px 0; }
 .bl-post-title {
 	margin: 0 0 28px 0;
-	font-family: "Helvetica Now Bold", "Helvetica Neue", Helvetica, sans-serif;
+	font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif;
 	font-weight: normal;
 	font-size: 34px;
 	line-height: 1.12;
@@ -986,7 +986,8 @@ body.blog-v2,
 }
 .bl-more a + a { border-top: 1px solid black; }
 .bl-more b {
-	font-family: "Helvetica Now Bold", "Helvetica Neue", Helvetica, sans-serif;
+	font-weight: normal;
+	font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif;
 	font-weight: normal;
 	font-size: 18px;
 	line-height: 1.25;
@@ -1001,7 +1002,7 @@ body.blog-v2,
 .l-body a { font-size: inherit; color: black; text-decoration: underline; text-underline-offset: 3px; }
 .l-body h2 {
 	margin: 44px 0 8px 0;
-	font-family: "Helvetica Now Bold", "Helvetica Neue", Helvetica, sans-serif;
+	font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif;
 	font-weight: normal;
 	font-size: 20px;
 	line-height: 1.4;
@@ -1053,7 +1054,7 @@ body.blog-v2,
 		padding-left: 37px;
 		background: rgba(0, 0, 0, 0.04);
 	}
-	.bl-row.is-open .bl-title { font-family: "Helvetica Now Bold", "Helvetica Neue", Helvetica, sans-serif; }
+	.bl-row.is-open .bl-title { font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif; }
 	.bl-post { overflow-y: auto; padding: 12px 22px 0 22px; }
 	.bl-post-in { padding-bottom: 96px; }
 }
@@ -1065,7 +1066,7 @@ body.blog-v2,
 	.bl-row { padding: 16px; }
 	.bl-sign::after { font-family: var(--mono); }
 	.bl-title {
-		font-family: "Helvetica Now Bold", "Helvetica Neue", Helvetica, sans-serif;
+		font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif;
 		font-size: 18px;
 		line-height: 1.25;
 	}
@@ -1133,6 +1134,9 @@ body.blog-v2,
 	.bl-more a { padding: 16px 32px; }
 	.blog-v2 .bl-feed { padding: 12px 32px; }
 }
+
+/* no bold anywhere on the blog: titles, links and headings stay regular */
+.blog-v2 main b, .blog-v2 main strong { font-family: "Helvetica Now", "Helvetica Neue", Helvetica, sans-serif; font-weight: normal; }
 
 /* ---- homepage header links (desktop), same row as on the blog ---- */
 .site-links {
