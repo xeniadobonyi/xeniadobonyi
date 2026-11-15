@@ -31,8 +31,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SITE = 'https://xeniadobonyi.com/'
-CSS = 'style.css?v=20261114k'
-JS = 'main.js?v=20261114i'
+CSS = 'style.css?v=20261115a'
+JS = 'main.js?v=20261115a'
 MONTHS = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split()
 
 BLOG_ASCII = r""" ____   _       ___    ____
@@ -192,66 +192,68 @@ FOOT = f'''<script type="text/javascript" src="{JS}"></script>
 GENERATED = '<!-- Built by _build.py from the files in _blog/. Edit those, not this page. -->\n'
 
 
-def index_page(posts):
-    # every post shows straight away: date, title, its picture and opening lines
+def dotted(p):
+    return p['day'].strftime('%d.%m.%Y')
+
+
+def blog_page(posts, k, landing):
+    """One page = the list of posts plus one open post, like the homepage columns.
+    Desktop: list on the left, the open post on the right, each scrolling on its own.
+    Phone and iPad: the list, with the open post folded out under its own row
+    (CSS order puts the article right after row k). blog.html is the newest post
+    open on desktop and every row closed on phone and iPad."""
+    p = posts[k]
     rows = []
-    for i, p in enumerate(posts):
-        pic = (f'<span class="b-thumb"><img src="{e(p["image"])}" alt="" '
-               f'{"loading=\"lazy\" " if i > 2 else ""}decoding="async"></span>') if p['image'] else '<span class="b-thumb"></span>'
-        rows.append(f'''			<a class="b-entry" href="{p['url']}">
-				<span class="b-date">{p['date_text']}</span>
-				<span class="b-main"><span class="b-title">{labelled(p)}</span><span class="b-excerpt">{e(p['excerpt'])}</span></span>
-				{pic}
+    for i, q in enumerate(posts):
+        cls = 'bl-row' + (' is-open' if i == k else '')
+        cur = ' aria-current="page"' if i == k and not landing else ''
+        meta = dotted(q) + (' / ' + e(q['label']) if q['label'] else '')
+        pic = (f'<span class="bl-pic"><img src="{e(q["image"])}" alt="" loading="lazy" decoding="async"></span>'
+               if q['image'] else '')
+        rows.append(f'''			<a class="{cls}" href="{q['url']}" style="order: {2 * i}"{cur}>
+				<span class="bl-text"><span class="bl-date">{meta}</span><span class="bl-title">{e(q['title'])}</span><span class="bl-excerpt">{e(q['excerpt'])}</span></span>
+				{pic}<span class="bl-sign" aria-hidden="true"></span>
 			</a>''')
-    return (head('blog // xenia dobonyi (✿◠‿◠)',
-                 'Xenia Dobonyi writes about tech, luxury fashion and digital innovation: e-commerce, AI, AR and experience design.',
-                 'blog.html', 'og-image.png')
-            + GENERATED + header() + f'''
-	<main class="b-index">
-		<section class="b-list" aria-label="All posts">
-{chr(10).join(rows)}
-			<p class="b-feed"><a href="feed.xml">RSS feed</a></p>
-		</section>
-	</main>
-''' + FOOT)
-
-
-def post_page(posts, i):
-    # "Quiet letter": a small bold title, one narrow column on the homepage's 400px line,
-    # pictures without frames, next/previous as plain links at the end.
-    p = posts[i]
-    newer = posts[i - 1] if i > 0 else None
-    older = posts[i + 1] if i + 1 < len(posts) else None
+    newer = posts[k - 1] if k > 0 else None
+    older = posts[k + 1] if k + 1 < len(posts) else None
     more = []
     if newer:
-        more.append(f'<p><span>Next</span> <a href="{newer["url"]}">{e(newer["title"])}</a></p>')
+        more.append(f'<a href="{newer["url"]}"><span>Next &rarr;</span><b>{e(newer["title"])}</b></a>')
     if older:
-        more.append(f'<p><span>Previous</span> <a href="{older["url"]}">{e(older["title"])}</a></p>')
-    label = f'<span class="l-label">{e(p["label"].capitalize())}</span>' if p['label'] else ''
-    ld = {
-        '@context': 'https://schema.org', '@type': 'BlogPosting',
-        'headline': p['title'], 'datePublished': p['day'].isoformat(), 'description': p['description'],
-        'author': {'@type': 'Person', 'name': 'Xenia Dobonyi', 'url': SITE},
-        'publisher': {'@type': 'Person', 'name': 'Xenia Dobonyi', 'url': SITE},
-        'mainEntityOfPage': SITE + p['url'],
-    }
-    if p['image']:
-        ld['image'] = SITE + p['image']
-    extra = '<script type="application/ld+json">\n%s\n</script>\n' % json.dumps(ld, ensure_ascii=False, indent=2)
-    return (head(p['title'] + ' // xenia dobonyi', p['description'], p['url'], p['image'], 'article', extra)
-            + GENERATED + header() + f'''
-	<main class="l-post">
-		<aside class="l-aside">
-			<a class="l-back" href="blog.html">&larr; All posts</a>
-			<time class="l-date" datetime="{p['day'].isoformat()}">{p['date_text']}</time>{label}
-		</aside>
-		<article class="l-article">
-			<h1 class="l-title">{e(p['title'])}</h1>
-			<div class="l-body">
+        more.append(f'<a href="{older["url"]}"><span>&larr; Previous</span><b>{e(older["title"])}</b></a>')
+    label = f' / {e(p["label"])}' if p['label'] else ''
+    if landing:
+        title, desc, url, image, kind, extra = ('blog // xenia dobonyi (✿◠‿◠)',
+            'Xenia Dobonyi writes about tech, luxury fashion and digital innovation: e-commerce, AI, AR and experience design.',
+            'blog.html', 'og-image.png', 'website', '')
+    else:
+        ld = {
+            '@context': 'https://schema.org', '@type': 'BlogPosting',
+            'headline': p['title'], 'datePublished': p['day'].isoformat(), 'description': p['description'],
+            'author': {'@type': 'Person', 'name': 'Xenia Dobonyi', 'url': SITE},
+            'publisher': {'@type': 'Person', 'name': 'Xenia Dobonyi', 'url': SITE},
+            'mainEntityOfPage': SITE + p['url'],
+        }
+        if p['image']:
+            ld['image'] = SITE + p['image']
+        title, desc, url, image, kind = p['title'] + ' // xenia dobonyi', p['description'], p['url'], p['image'], 'article'
+        extra = '<script type="application/ld+json">\n%s\n</script>\n' % json.dumps(ld, ensure_ascii=False, indent=2)
+    return (head(title, desc, url, image, kind, extra) + GENERATED + header() + f'''
+	<main class="bl{' is-landing' if landing else ''}">
+		<div class="bl-list" role="navigation" aria-label="All posts">
+{chr(10).join(rows)}
+			<p class="bl-feed" style="order: 999"><a href="feed.xml">RSS feed</a></p>
+		</div>
+		<article class="bl-post" style="order: {2 * k + 1}" aria-labelledby="post-title">
+			<div class="bl-post-in">
+				<p class="bl-post-date"><time datetime="{p['day'].isoformat()}">{dotted(p)}</time>{label}</p>
+				<h1 class="bl-post-title" id="post-title">{e(p['title'])}</h1>
+				<div class="l-body">
 {p['body']}
+				</div>
+				<p class="bl-end" aria-hidden="true">&#10047;</p>
+				<div class="bl-more" role="navigation" aria-label="More posts">{''.join(more)}</div>
 			</div>
-			<p class="l-end" aria-hidden="true">&#10047;</p>
-			<div class="l-more" role="navigation" aria-label="More posts">{''.join(more)}</div>
 		</article>
 	</main>
 ''' + FOOT)
@@ -292,9 +294,9 @@ def main():
     posts = sorted((read_post(f) for f in (ROOT / '_blog').glob('*.md') if not f.name.startswith('_')), key=lambda p: (p['day'], p['slug']), reverse=True)
     if not posts:
         raise SystemExit('No posts found in _blog/')
-    (ROOT / 'blog.html').write_text(index_page(posts), encoding='utf-8')
+    (ROOT / 'blog.html').write_text(blog_page(posts, 0, True), encoding='utf-8')
     for i, p in enumerate(posts):
-        (ROOT / p['url']).write_text(post_page(posts, i), encoding='utf-8')
+        (ROOT / p['url']).write_text(blog_page(posts, i, False), encoding='utf-8')
     (ROOT / 'feed.xml').write_text(feed(posts), encoding='utf-8')
     (ROOT / 'sitemap.xml').write_text(sitemap(posts), encoding='utf-8')
     print('Built blog.html, %d posts, feed.xml and sitemap.xml' % len(posts))

@@ -596,3 +596,56 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 
 	setTimeout(blowIn, FIRST_AFTER);
 })();
+
+/* ---- blog: switch posts without a page refresh, like the homepage ----
+   A click on a post (or on Next / Previous) fetches that post's page and swaps in
+   its list and post, so the header never reloads. On phone and iPad a tap on the
+   open post's row closes it again. Without JavaScript the links simply load the page. */
+(function () {
+	if (!document.querySelector('main.bl') || !window.fetch || !window.DOMParser) return;
+	var mobile = window.matchMedia('(max-width: 1057px)');
+	var POST = /(^|\/)(blog\.html|blog-\d+\.html)$/;
+
+	function swap(url, push, anchorHref) {
+		var old = document.querySelector('main.bl');
+		var listTop = old.querySelector('.bl-list').scrollTop;
+		return fetch(url, { credentials: 'same-origin' }).then(function (r) {
+			if (!r.ok) throw new Error(r.status);
+			return r.text();
+		}).then(function (text) {
+			var doc = new DOMParser().parseFromString(text, 'text/html');
+			var fresh = doc.querySelector('main.bl');
+			if (!fresh) throw new Error('no blog');
+			old.replaceWith(fresh);
+			document.title = doc.title;
+			if (push) history.pushState({ blog: true }, '', url);
+			if (mobile.matches) {
+				// keep the row that was tapped where the reader is looking
+				var row = fresh.querySelector('.bl-row[href="' + (anchorHref || '') + '"]') ||
+					fresh.querySelector('.bl-row.is-open');
+				if (row) window.scrollTo(0, row.getBoundingClientRect().top + window.pageYOffset);
+			} else {
+				fresh.querySelector('.bl-list').scrollTop = listTop;
+				fresh.querySelector('.bl-post').scrollTop = 0;
+			}
+			if (window.gtag) gtag('event', 'page_view', { page_location: location.href, page_title: document.title });
+		}).catch(function () { location.href = url; });
+	}
+
+	document.addEventListener('click', function (ev) {
+		if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+		var a = ev.target.closest && ev.target.closest('main.bl a[href]');
+		if (!a || !POST.test(a.getAttribute('href'))) return;
+		ev.preventDefault();
+		var href = a.getAttribute('href');
+		var main = document.querySelector('main.bl');
+		var isOpen = a.classList.contains('bl-row') && a.classList.contains('is-open') && !main.classList.contains('is-landing');
+		if (isOpen) {
+			if (!mobile.matches) return;           // desktop: it's already open
+			swap('blog.html', true, href);         // phone / iPad: close it
+			return;
+		}
+		swap(href, true, a.classList.contains('bl-row') ? href : null);
+	});
+	window.addEventListener('popstate', function () { swap(location.href, false); });
+})();
