@@ -418,12 +418,12 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
   var love = document.getElementById('dcLove');
   var label = document.getElementById('dcLabel');
   var line = document.getElementById('dcPreview');
-  var ARTIST = 'Gino Vannelli', ALBUM = 'Powerful People', SONG = 'People Gotta Move';
+  var ARTIST = 'Herbie Hancock', ALBUM = 'Head Hunters', SONG = 'Chameleon';
 
   // Same cover lookup the real site uses; the pink label with the artist name stays if it fails.
   var img = new Image();
   img.onload = function () { label.style.backgroundImage = 'url("' + img.src + '")'; label.textContent = ''; };
-  img.src = 'https://digdeepcuts.com/api/cover?artist=Gino%20Vannelli&album=Powerful%20People';
+  img.src = 'https://digdeepcuts.com/api/cover?artist=Herbie%20Hancock&album=Head%20Hunters';
 
   var audio = typeof Audio === 'function' ? new Audio() : null;
   var clip = null, looking = null, n = 0;
@@ -443,7 +443,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
     document.head.appendChild(s);
   }
   function same(a, b) { return String(a || '').toLowerCase().indexOf(b.toLowerCase()) === 0; }
-  function pick(list) { // "People Gotta Move" if it has a preview, else the album's first track that does
+  function pick(list) { // "Chameleon" if it has a preview, else the album's first track that does
     var ok = list.filter(function (t) { return t.preview && same(t.artist, ARTIST) && same(t.album, ALBUM); });
     return ok.filter(function (t) { return same(t.title, SONG); })[0] || ok[0] || null;
   }
@@ -481,7 +481,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
     var src = document.createElement('a');
     src.href = clip.link || '#'; src.target = '_blank'; src.rel = 'noopener'; src.textContent = clip.source;
     line.textContent = '';
-    line.appendChild(document.createTextNode((on ? 'Playing “' : 'Press play: “') + clip.title + '”, 30 sec via '));
+    line.appendChild(document.createTextNode((on ? 'Playing' : 'Press play:') + (same(clip.title, SONG) ? '' : ' “' + clip.title + '”,') + ' 30 sec via '));
     line.appendChild(src);
     line.hidden = false;
   }
@@ -533,7 +533,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(snapTextTo
 	var SIZE = 22;            // px, every flower
 	var SPEED = 80;           // px per second, every flower
 	var SPIN = 90;            // degrees per second, clockwise or anticlockwise
-	var FIRST_AFTER = 5000;   // ms before the first flower blows in
+	var FIRST_AFTER = 6000;   // ms before the first flower blows in
 	var count = 2 + Math.floor(Math.random() * 4);
 
 	var layer = document.createElement('div');

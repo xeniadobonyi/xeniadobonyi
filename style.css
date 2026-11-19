@@ -766,8 +766,9 @@ p.photo-description {
 .dc-preview { font-family: var(--dc-mono); font-size: 12px; color: var(--dc-muted); }
 .dc-preview a { color: inherit; }
 .dc-play[aria-busy="true"] { opacity: 0.6; }
-.dc-body { display: grid; grid-template-columns: auto 1fr; grid-template-areas: "deck name" "deck meta" "deck why" "deck react"; column-gap: 18px; row-gap: 6px; align-items: start; align-content: center; }
+.dc-body { display: grid; grid-template-columns: auto 1fr; grid-template-areas: "deck song" "deck name" "deck meta" "deck why" "deck react"; column-gap: 18px; row-gap: 6px; align-items: start; align-content: center; }
 .dc-deck { grid-area: deck; align-self: center; position: relative; width: 120px; height: 120px; flex-shrink: 0; }
+.dc-song { grid-area: song; font-size: 19px; font-weight: 700; line-height: 1.2; overflow-wrap: break-word; min-width: 0; }
 .dc-name { grid-area: name; font-size: 17px; line-height: 1.25; overflow-wrap: break-word; min-width: 0; }
 .dc-meta { grid-area: meta; font-family: var(--dc-mono); font-size: 12px; color: var(--dc-muted); }
 .dc-meta .dc-on { color: var(--dc-fg); letter-spacing: .08em; }
@@ -802,15 +803,15 @@ p.photo-description {
 .dc-spin .dc-btn:disabled { opacity: .4; cursor: default; }
 /* Narrow column or phone: same layout the app uses on phones. */
 @container (max-width: 520px) {
-	.dc-body { grid-template-areas: "deck name" "deck meta" "deck react" "why why"; column-gap: 14px; }
+	.dc-body { grid-template-areas: "deck song" "deck name" "deck meta" "deck react" "why why"; column-gap: 14px; }
 	.dc-why { margin-top: 8px; }
-	.dc-album { display: block; }
+	.dc-album { display: inline; }
 	.dc-counts { display: none; }
 	.dc-break { display: block; flex-basis: 100%; height: 0; }
 }
 /* Very narrow column (small laptop windows): the record sits above the text. */
 @container (max-width: 320px) {
-	.dc-body { grid-template-columns: 1fr; grid-template-areas: "deck" "name" "meta" "react" "why"; row-gap: 8px; }
+	.dc-body { grid-template-columns: 1fr; grid-template-areas: "deck" "song" "name" "meta" "react" "why"; row-gap: 8px; }
 	.dc-deck { justify-self: start; margin-bottom: 6px; }
 	.dc-album { display: inline; }
 }
